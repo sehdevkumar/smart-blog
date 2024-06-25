@@ -33,6 +33,7 @@
 
 .ql-toolbar{
     position: absolute;
+    display: none;
 }
 
 .ql-editor::before {
