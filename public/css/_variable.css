@@ -1,0 +1,30 @@
+:root {
+    
+    /* Overlayes */
+    --overlay-bg:#2E3192;
+    --overlay-bg-alpha: #E2F4CE;
+
+    /* Http Back overlay */
+    --http-loader-bg: rgba(0,0,0,0.2);
+
+    /* Text */
+    --app-text-clr: #191919;
+
+    /* Buttons */
+    --app-btn-bg: #2E3192;
+    --app-btn-text: #f9f9f9;
+    --app-btn-cancel: #2E3192;
+    --app-btn-close:#A1A1A1;
+
+    /* cards */
+    --app-card-body: #FFFFFF;
+    --app-card-header:#BFC0EC;
+
+
+    /* drawers */
+    --app-drawer-bg:#D8D8F8;
+
+
+    /* input fields */
+    --app-input-bg:#ffffff;
+}

@@ -1,0 +1,42 @@
+@import '/css/_variable.css';
+@import '/css/_scrollbar.css';
+@import '/css/_table.css';
+@import '/css/_fonts.css';
+@import '/css/_loaders.css';
+@import '/css/_buttons.css';
+@import '/css/_streaming.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.no-ptr {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+
+* {
+    font-family: 'Inter Regular';
+}
+
+
+.ql-editor {
+    background: transparent;
+    height: 100dvh !important;
+    border: none !important;
+    font-size: 20px
+}
+.ql-container.ql-snow {
+    border: none !important;
+}
+
+.ql-toolbar{
+    position: absolute;
+}
+
+.ql-editor::before {
+    font-size: 20px;
+    /* Change this to your desired font size */
+    /* Optional: Change placeholder text color */
+}

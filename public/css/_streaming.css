@@ -1,0 +1,141 @@
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.full-screen-btn {
+  height: 16px !important;
+  width: 16px !important;
+  position: absolute;
+  right: 10px;
+}
+.pin-icon-cls {
+  position: absolute;
+  right: 40px;
+}
+.camera-name {
+  color: white;
+  margin-left: 10px;
+}
+.video-control {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 42px;
+  justify-content: space-between;
+  position: absolute;
+  bottom: 0;
+  z-index: 100;
+  background-color: rgba(0, 0, 0, 0.38);
+  opacity: 0;
+
+  
+  }
+    video {
+     object-fit: fill;
+     width: 100% !important;
+     height: 100% !important;
+     aspect-ratio: 4 / 3;
+    }
+.video-container:hover .video-control {
+  opacity: 1;
+}
+.remove-border {
+  border: 1px solid transparent;
+}
+.video-border {
+  border: 3px solid #006bf2;
+  border-top: 4px solid #006bf2;
+  border-bottom: 4px solid #006bf2;
+}
+#cameras {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  .video-container {
+    position: relative;
+    text-align: center;
+    width: 100%;
+    height: 98%;
+
+    video {
+      height: 100%;
+      width: 100%;
+      animation: border-animate 3s ease-in-out infinite;
+    }
+  }
+}
+
+.video-control-ptz-img {
+  position: absolute;
+  right: 75px;
+  height: 23px;
+  width: 25px;
+}
+.push-pin-img {
+  background-color: #0081ff;
+  z-index: 100;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  border-radius: 50%;
+  z-index: 121;
+  visibility: hidden;
+}
+.visible {
+  display: block;
+}
+.video-width {
+  width: 100%;
+  height: 100%;
+  object-fit: cover !important;
+}
+.pinged-video-cls {
+  width: inherit;
+}
+.pined-video {
+  border: 2px solid yellow;
+}
+
+
+.loader-waiting {
+  transform: translate(-50%, -50%);
+  width: 150px;
+  left: 50%;
+  top: 50%;
+  position: fixed;
+  height: 150px;
+  display: inline-block;
+  position: relative;
+}
+.loader-waiting::after,
+.loader-waiting::before {
+  content: "";
+  box-sizing: border-box;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 5px solid #2df826;
+  position: fixed;
+  animation: animloader 2s linear infinite;
+}
+.loader-waiting::after {
+  animation-delay: 1s;
+}
+
+@keyframes animloader {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}

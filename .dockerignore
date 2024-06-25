@@ -1,0 +1,26 @@
+# Ignore node_modules to avoid copying it into the Docker image
+node_modules
+npm-debug.log
+
+# Ignore the build output
+# Ignore local environment variables and configuration files
+
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Ignore log files
+logs
+*.log
+
+# Ignore any temporary files or directories
+tmp
+temp
+
+# Ignore any other local development files or directories
+.DS_Store
+*.swp
+
+# Ignore the Dockerfile itself and .dockerignore file (optional)
+Dockerfile
+.dockerignore

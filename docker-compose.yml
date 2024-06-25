@@ -1,0 +1,30 @@
+# docker-compose
+version: '3.7'
+services:
+  # count-dashboard:
+  #   container_name: 'nekkanti-dashboard-container'
+  #   init: true
+  #   build: .
+  #   ports:
+  #     - 3002:3002
+  #   working_dir: /count-dashboard
+  #   volumes:
+  #     - ./:/count-dashboard
+  #   image: nekkanti-dashboardv1-image
+
+  openvidu:
+    image: openvidu/openvidu-dev:latest
+    container_name: openvidu-container
+    restart: on-failure
+    ports:
+      - "4443:4443"
+    environment:
+      - OPENVIDU_SECRET=MY_SECRET
+      - DOMAIN_OR_PUBLIC_IP=172.16.120.62
+      - OPENVIDU_STREAMS_FORCED_VIDEO_CODEC=H264  
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /home/openvidu/recordings:/home/openvidu/recordings
+      - /home/openvidu/cdr:/home/openvidu/cdr
+    
+ 
