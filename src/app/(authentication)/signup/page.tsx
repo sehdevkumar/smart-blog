@@ -11,18 +11,40 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "~/app/components/ChakraUI";
+import { isPropEmpty, strCmp } from "~/app/utils/utilfunctions";
 
 export default function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [name, setName] = useState("");
+  const [isFormValid,setFormValid] = useState<boolean>();
+
+
+
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Handle signup logic
   };
+
+
+  useEffect(()=> {
+     if(isPropEmpty(password) || isPropEmpty(email) || isPropEmpty(name) || isPropEmpty(confirmPassword)) {
+       setFormValid(false)
+     }else {
+       
+        if(strCmp(confirmPassword,password)) {
+          setFormValid(true)
+           
+        }else {
+           setFormValid(false)
+        }
+
+     }
+  } ,[email,password,confirmPassword,name])
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -41,9 +63,20 @@ export default function Signup() {
           </Heading>
           <form onSubmit={handleSubmit}>
             <Stack spacing={4}>
+              <FormControl id="name" isRequired>
+                <FormLabel>Username</FormLabel>
+                <Input
+                  placeholder="Username"
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  focusBorderColor="blue.500"
+                />
+              </FormControl>
               <FormControl id="email" isRequired>
                 <FormLabel>Email address</FormLabel>
                 <Input
+                  placeholder="example@gmail.com"
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -53,6 +86,7 @@ export default function Signup() {
               <FormControl id="password" isRequired>
                 <FormLabel>Password</FormLabel>
                 <Input
+                  placeholder="*****"
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -62,6 +96,7 @@ export default function Signup() {
               <FormControl id="confirmPassword" isRequired>
                 <FormLabel>Confirm Password</FormLabel>
                 <Input
+                  placeholder="*****"
                   type="password"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
@@ -70,20 +105,16 @@ export default function Signup() {
               </FormControl>
               <Button
                 type="submit"
-                colorScheme="blue"
                 size="lg"
                 fontSize="md"
-                className="w-full"
+                className={`${isFormValid ? "" : "no-ptr"} w-full bg-[var(--app-btn-bg)!important] text-[var(--app-btn-text)!important]`}
               >
                 Sign Up
               </Button>
             </Stack>
           </form>
           <Text textAlign="center">
-            Already have an account?{" "}
-            <Link href="/login">
-               LogIn
-            </Link>
+            Already have an account? <Link href="/login">LogIn</Link>
           </Text>
         </Stack>
       </Box>
