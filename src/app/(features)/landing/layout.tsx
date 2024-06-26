@@ -1,4 +1,5 @@
 import React from "react";
+import HeaderPage from "~/app/_layout/Header";
 
 
 export default function LandingLayout({
@@ -9,7 +10,6 @@ export default function LandingLayout({
   return (
     <>
      {children}
-
     </>
   );
 }

@@ -23,7 +23,7 @@
 
 .ql-editor {
     background: transparent;
-    height: 100dvh !important;
+    overflow: hidden;
     border: none !important;
     font-size: 20px
 }
@@ -34,6 +34,7 @@
 .ql-toolbar{
     position: absolute;
     display: none;
+    background: #FFFFFF;
 }
 
 .ql-editor::before {

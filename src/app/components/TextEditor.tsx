@@ -2,7 +2,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 'use client'
 import { AddIcon, SmallCloseIcon } from '@chakra-ui/icons'
-import { Image } from '@chakra-ui/react'
 import React, {
   forwardRef,
   useEffect,
@@ -96,12 +95,12 @@ export default forwardRef<RichTextEditorRef, {}>(function RichTextEditor(
         const x = e.clientX
         const y = e.pageY
 
-        storeCoordsRef.current = [x, y - 80]
+        storeCoordsRef.current = [x, y - 40]
         toolbar.style.top = `${storeCoordsRef?.current[1]}px`
         if (toolbarIcon) {
           toolbarIcon.style.position = 'absolute'
           toolbarIcon.style.left = `25px`
-          toolbarIcon.style.top = `${y - 80}px`
+          toolbarIcon.style.top = `${y - 40}px`
         }
       })
     }
@@ -121,7 +120,7 @@ export default forwardRef<RichTextEditorRef, {}>(function RichTextEditor(
       <div
         onClick={toolBarIconHandle}
         ref={toolbarIconRef}
-        className="z-[9999999999] cursor-pointer border-slate-800 border-2 w-[40px] h-[40px] rounded-full flex justify-center items-center"
+        className="z-[9999999999] cursor-pointer border-slate-800 border-[1px] w-[40px] h-[40px] rounded-full flex justify-center items-center"
       >
         {getIconToggled && <SmallCloseIcon />}
         {!getIconToggled && <AddIcon />}
@@ -135,7 +134,7 @@ export default forwardRef<RichTextEditorRef, {}>(function RichTextEditor(
           value={value}
           onChange={setValue}
         />
-        ;
+        
       </div>
     </div>
   )

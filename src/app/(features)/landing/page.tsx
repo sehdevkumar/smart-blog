@@ -1,12 +1,9 @@
-import React from 'react'
-import WritePostPage from '../writepost/page'
+import { redirect } from 'next/navigation'
 
-function LandingPage() {
-  return (
-    <>
-        <WritePostPage/>
-    </>
-  )
+async function LandingPage() {
+  
+    return redirect('/home')
+
 }
 
 export default LandingPage
