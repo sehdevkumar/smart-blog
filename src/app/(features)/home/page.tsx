@@ -1,12 +1,11 @@
 "use client"
 
-import WritePostPage from "../writepost/page"
 
 const HomePage =  ()=> {
 
 
     return (
-         <WritePostPage/>
+         <>Welcome to home</>
     )
 
 }

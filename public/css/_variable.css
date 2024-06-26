@@ -1,7 +1,7 @@
 :root {
     
     /* Overlayes */
-    --overlay-bg:#2E3192;
+    --overlay-bg:#0F730C;
     --overlay-bg-alpha: #E2F4CE;
 
     /* Http Back overlay */
@@ -11,9 +11,9 @@
     --app-text-clr: #191919;
 
     /* Buttons */
-    --app-btn-bg: #2E3192;
+    --app-btn-bg: #0F730C;
     --app-btn-text: #f9f9f9;
-    --app-btn-cancel: #2E3192;
+    --app-btn-cancel: #0F730C;
     --app-btn-close:#A1A1A1;
 
     /* cards */

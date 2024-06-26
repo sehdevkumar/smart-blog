@@ -25,14 +25,16 @@
     background: transparent;
     overflow: hidden;
     border: none !important;
-    font-size: 20px
+    font-size: 20px;
+    position: unset;
 }
 .ql-container.ql-snow {
+    position: unset;
     border: none !important;
 }
 
 .ql-toolbar{
-    position: absolute;
+    position: fixed;
     display: none;
     background: #FFFFFF;
 }

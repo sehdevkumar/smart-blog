@@ -62,7 +62,7 @@ export default forwardRef<RichTextEditorRef, {}>(function RichTextEditor(
       if (toolbar) {
         toolbar.style.display = 'block'
         toolbar.style.zIndex = '9999999999999'
-        toolbar.style.position = 'absolute'
+        toolbar.style.position = 'fixed'
         // toolbar.style.left = `${(storeCoordsRef?.current[0])}px`
         toolbar.style.top = `${storeCoordsRef?.current[1]}px`
       }
@@ -71,7 +71,7 @@ export default forwardRef<RichTextEditorRef, {}>(function RichTextEditor(
       const toolbar = toolBarRef.current as HTMLDivElement
       if (toolbar) {
         toolbar.style.zIndex = '9999999999999'
-        toolbar.style.position = 'absolute'
+        toolbar.style.position = 'fixed'
         // toolbar.style.left = `${(storeCoordsRef?.current[0])}px`
         toolbar.style.top = `${storeCoordsRef?.current[1]}px`
       }
@@ -81,34 +81,33 @@ export default forwardRef<RichTextEditorRef, {}>(function RichTextEditor(
   }
 
   useEffect(() => {
-    if (editorRef.current) {
-      const editorElement = editorRef.current.getEditor().root
+    if (typeof window !== "undefined" && document) {
+      const editorElement = editorRef?.current?.getEditor()?.root
       // eslint-disable-next-line @typescript-eslint/non-nullable-type-assertion-style
       const toolbar = document.querySelector('.ql-toolbar')!
       toolBarRef.current = toolbar
-      editorElement.addEventListener('pointerdown', (e: PointerEvent) => {
-        e?.stopPropagation()
+      editorElement?.addEventListener('pointerdown', (e: PointerEvent) => {
 
-        const toolbar = toolBarRef.current as HTMLDivElement
+        const toolbar = toolBarRef?.current as HTMLDivElement
         
-        const toolbarIcon = toolbarIconRef.current as HTMLDivElement
-        const x = e.clientX
-        const y = e.pageY
+        const toolbarIcon = toolbarIconRef?.current as HTMLDivElement
+        const x = e?.clientX
+        const y = e?.clientY + e?.height
 
-        storeCoordsRef.current = [x, y - 40]
+        storeCoordsRef.current = [x, y - 60]
         toolbar.style.top = `${storeCoordsRef?.current[1]}px`
         if (toolbarIcon) {
-          toolbarIcon.style.position = 'absolute'
-          toolbarIcon.style.left = `25px`
-          toolbarIcon.style.top = `${y - 40}px`
+          toolbarIcon.style.position = 'fixed'
+          toolbarIcon.style.left = `100px`
+          toolbarIcon.style.top = `${y - 60}px`
         }
       })
     }
 
     return () => {
-      if (editorRef.current) {
-        const editorElement = editorRef.current.getEditor().root
-        editorElement.removeEventListener('pointerdown', (e: PointerEvent) => {
+      if (editorRef?.current && typeof window !== "undefined" && document) {
+        const editorElement = editorRef?.current?.getEditor()?.root
+        editorElement?.removeEventListener('pointerdown', (e: PointerEvent) => {
           // Cleanup logic
         })
       }
@@ -116,7 +115,7 @@ export default forwardRef<RichTextEditorRef, {}>(function RichTextEditor(
   }, [editorRef])
 
   return (
-    <div className="">
+    <div >
       <div
         onClick={toolBarIconHandle}
         ref={toolbarIconRef}
@@ -125,10 +124,10 @@ export default forwardRef<RichTextEditorRef, {}>(function RichTextEditor(
         {getIconToggled && <SmallCloseIcon />}
         {!getIconToggled && <AddIcon />}
       </div>
-      <div>
+      <div >
         <ReactQuill
           ref={editorRef}
-          modules={{ toolbar: toolbarOptions }}
+          modules={{ toolbar: toolbarOptions}}
           placeholder="Tell Your Story..."
           theme="snow"
           value={value}

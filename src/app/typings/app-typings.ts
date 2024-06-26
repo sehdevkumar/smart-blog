@@ -28,3 +28,11 @@ export interface MessageBoxProps {
   confirmMsg?: string;
   closeMsg?: string;
 }
+
+
+
+export enum AppPathEnums  {
+  HOME = '/home',
+  WRITE_POST='/writepost'
+
+}

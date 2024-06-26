@@ -2,7 +2,8 @@
 export {
  ArrowBackIcon,
  ArrowForwardIcon,
- SearchIcon
+ SearchIcon,
+ EditIcon
 } from '@chakra-ui/icons';
 
 export { Link } from '@chakra-ui/next-js';
