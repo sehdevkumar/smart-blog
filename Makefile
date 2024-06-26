@@ -88,7 +88,8 @@ prisma-reset-db:
 prisma-view:
 	@npm run db:studio
 
-
+reset-watcher:
+	$(shell sudo sysctl -w fs.inotify.max_user_watches=5024288)
 
 #! Default target
 .DEFAULT_GOAL := serve

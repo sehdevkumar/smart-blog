@@ -10,15 +10,24 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model CargoCount {
-    id        Int      @id @default(autoincrement())
-    poNumber  String  @unique()
-    startAt String ?
-    endAt  String ?
-    count Int
-    in_count Int @default(0)
-    out_count Int @default(0)
-    isActive  Boolean @default(true)
-    stream_url String ?
-    session_id String ?
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  password  String
+  posts     Blog[]
+  refreshToken String?   // Optional field to store refresh tokens
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Blog {
+  id        Int      @id @default(autoincrement())
+  title     String?
+  content   String?
+  published Boolean  @default(false)
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  Int
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
 }

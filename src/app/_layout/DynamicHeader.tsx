@@ -1,28 +1,25 @@
 "use client";
 
 import { Link } from "@chakra-ui/next-js";
-import { usePathname } from "next/navigation";
-import { EditIcon } from "../components/Icons";
 import { useEffect, useState } from "react";
-import { AppPathEnums } from "../typings/app-typings";
-import { Button } from "@chakra-ui/react";
+import { isUserLoggedIn } from "../utils/user-session";
+import SubHeaderAfterLoggedInPage from "./SubHeaderAfterLoggedIn";
+import SubHeaderBeforeLoggedInPage from "./SubHeaderBeforeLoggedIn";
 
 const DynamicHeaderPage = ()=> {
-  const route = usePathname();
-  const [isWritePage,setWritePage] = useState<boolean>(false); 
-  const [isDefaultPages,setDefaultPages] = useState<boolean>(false); 
+
+  const [isUserLoggedin,setUserLoggedIn] = useState<boolean>(false);
+  
 
 
 
-  useEffect(()=> {    
-    if(route === AppPathEnums.WRITE_POST) {
-         setWritePage(true);
-         setDefaultPages(false);
-    }else {
-         setWritePage(false);
-         setDefaultPages(true);
-    }
-  },[route])
+  
+
+  useEffect(()=> {
+
+     setUserLoggedIn(isUserLoggedIn()!);
+
+  },[])
 
 
     return  (
@@ -33,23 +30,20 @@ const DynamicHeaderPage = ()=> {
               </Link>
             </div>
             <nav className="flex items-center justify-center gap-x-1">
-              {
-                 isDefaultPages &&   <Link  href="/writepost" className='flex justify-center items-center'>
-                 <EditIcon/>
-                <div className="text-gray-900 hover:text-gray-700 px-2 py-2 rounded-md text-sm font-medium">Write</div>
-              </Link>
-              }
 
-              {
-                isWritePage && <>
-                     
-               <Button  style={{background: 'var(--app-btn-bg)',color: 'var(--app-btn-text)'}}>
-                 <EditIcon/>
-                <div className="text-[var(--app-btn-text)] hover:text-gray-700 px-2 py-2 rounded-md text-sm font-medium">Publish</div>
-              </Button>
-                     
-                
-                </>
+              <>
+                {
+                  isUserLoggedin && 
+                  <SubHeaderAfterLoggedInPage/>
+                }
+              </>
+
+              {!isUserLoggedin &&               
+              <>
+                 
+                 <SubHeaderBeforeLoggedInPage/>
+
+               </>
               }
             
           

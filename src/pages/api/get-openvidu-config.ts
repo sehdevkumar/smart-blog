@@ -12,16 +12,11 @@ const prisma = new PrismaClient();
 
 export default async function handler(req: NextApiRequest, res: NextApiResponseWithSocket) {
   const {job_id} = await req.body;
-  const isRecordExists = await prisma?.cargoCount?.findUnique({
-    where: {
-      poNumber: job_id,
-    },
-  })
   try { 
     const config: OpenViduServerConnectionConfig = {
       openvidu_secret: 'T1BFTlZJRFVBUFA6TVlfU0VDUkVU',
         openvidu_url: OPENVIDU_URL,
-        session_id: isRecordExists?.session_id+''
+        session_id: ''
     }
     res.status(200).json(config);
   } catch (error) {

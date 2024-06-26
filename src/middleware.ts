@@ -4,8 +4,7 @@ import {type NextRequest } from 'next/server'
 export async function middleware(request: NextRequest) {
 
 
-  if(request.nextUrl.pathname.startsWith('/')) {
-   
+  if (request.nextUrl.pathname.startsWith('/api/auth/login')) {
   }
 
   if (request.nextUrl.pathname.startsWith('/create-po')) {
@@ -24,6 +23,6 @@ export async function middleware(request: NextRequest) {
 
 // See "Matching Paths" below to learn more
 export const config = {
-  matcher: ['/live', '/create-po', '/','/ray-runtime','/reports'],
+  matcher: ['/live', '/create-po', '/', '/ray-runtime', '/reports','/api/auth/login'],
 }
 
