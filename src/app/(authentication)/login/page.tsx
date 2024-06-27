@@ -11,21 +11,56 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
+import { useMutation } from "@tanstack/react-query";
+import axios, { type AxiosResponse } from "axios";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Link } from "~/app/components/ChakraUI";
+import useHttpClientHandler from "~/app/hooks/useHttpLoader";
 import { isPropEmpty } from "~/app/utils/utilfunctions";
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isFormValid,setFormValid] = useState<boolean>();
+  const router = useRouter()
+  
+  
+    const  {setLoader,setError,setToast} = useHttpClientHandler()
+  
+  const registerUserFn = async (): Promise<AxiosResponse<any,any>>=> {
+    const payload = {
+      email, password
+    }
+    return await axios.post('/api/auth/login',payload);
 
+  }
+
+  
+  const startSignInMutation = useMutation({
+    mutationFn: () => registerUserFn(),
+    onSuccess: (startResponse) => {
+      if ([200, 201].includes(startResponse.status)) {
+        setToast('User Logged Successfully...')
+        setLoader(true,'redirecting....')
+        const ref =  setTimeout(()=> {
+          clearTimeout(ref);
+          setLoader(false);
+         },3000)
+      }
+    },
+    onError: (err) => {
+      setLoader(false);
+      setError(err);
+      console.log("error", err);
+    },
+  });
 
 
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle signup logic
+    startSignInMutation.mutate()
   };
 
 
