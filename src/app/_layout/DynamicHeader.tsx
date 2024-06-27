@@ -1,23 +1,17 @@
 "use client";
 
 import { Link } from "@chakra-ui/next-js";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { isUserLoggedIn } from "../utils/user-session";
 import SubHeaderAfterLoggedInPage from "./SubHeaderAfterLoggedIn";
 import SubHeaderBeforeLoggedInPage from "./SubHeaderBeforeLoggedIn";
 
-const DynamicHeaderPage = ()=> {
+const DynamicHeaderPage =  ()=> {
 
   const [isUserLoggedin,setUserLoggedIn] = useState<boolean>(false);
-  
+  useLayoutEffect(()=> {
 
-
-
-  
-
-  useEffect(()=> {
-
-     setUserLoggedIn(isUserLoggedIn()!);
+     setUserLoggedIn(isUserLoggedIn());
 
   },[])
 

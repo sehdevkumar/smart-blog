@@ -1,8 +1,8 @@
-"use server"
+"use client";
 import React from 'react';
 import DynamicHeaderPage from './DynamicHeader';
 
-const HeaderPage = async() => {
+const HeaderPage = () => {
   
 
 

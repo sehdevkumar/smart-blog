@@ -98,7 +98,7 @@ export default forwardRef<RichTextEditorRef, {}>(function RichTextEditor(
         toolbar.style.top = `${storeCoordsRef?.current[1]}px`
         if (toolbarIcon) {
           toolbarIcon.style.position = 'fixed'
-          toolbarIcon.style.left = `100px`
+          toolbarIcon.style.left = `280px`
           toolbarIcon.style.top = `${y - 60}px`
         }
       })
@@ -115,7 +115,7 @@ export default forwardRef<RichTextEditorRef, {}>(function RichTextEditor(
   }, [editorRef])
 
   return (
-    <div >
+    <div className='relative'>
       <div
         onClick={toolBarIconHandle}
         ref={toolbarIconRef}

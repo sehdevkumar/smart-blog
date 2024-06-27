@@ -15,9 +15,10 @@ import {
 import { useMutation } from "@tanstack/react-query";
 import axios, { type AxiosResponse } from "axios";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { Link } from "~/app/components/ChakraUI";
 import useHttpClientHandler from "~/app/hooks/useHttpLoader";
+import { isUserLoggedIn } from "~/app/utils/user-session";
 import { isPropEmpty, strCmp } from "~/app/utils/utilfunctions";
 
 export default function Signup() {
@@ -59,6 +60,14 @@ export default function Signup() {
     },
   });
 
+
+
+  useLayoutEffect(() => {
+    // is User already lodded in redicet to home
+      if(isUserLoggedIn()) {
+         router.push('/home')
+      }
+  }, [])
 
 
   const handleSubmit = (e: React.FormEvent) => {

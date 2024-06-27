@@ -14,19 +14,28 @@ import {
 import { useMutation } from "@tanstack/react-query";
 import axios, { type AxiosResponse } from "axios";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { Link } from "~/app/components/ChakraUI";
 import useHttpClientHandler from "~/app/hooks/useHttpLoader";
+import { isUserLoggedIn, setUserSession, type UserSessionResponse } from "~/app/utils/user-session";
 import { isPropEmpty } from "~/app/utils/utilfunctions";
 
 export default function SignIn() {
+  const router = useRouter()
+
+  useLayoutEffect(() => {
+    // is User already lodded in redicet to home
+      if(isUserLoggedIn()) {
+         router.push('/home')
+      }
+  }, [])
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isFormValid,setFormValid] = useState<boolean>();
-  const router = useRouter()
   
   
-    const  {setLoader,setError,setToast} = useHttpClientHandler()
+  const  {setLoader,setError,setToast} = useHttpClientHandler()
   
   const registerUserFn = async (): Promise<AxiosResponse<any,any>>=> {
     const payload = {
@@ -41,12 +50,14 @@ export default function SignIn() {
     mutationFn: () => registerUserFn(),
     onSuccess: (startResponse) => {
       if ([200, 201].includes(startResponse.status)) {
-        setToast('User Logged Successfully...')
+        setToast('User Logged In Successfully...')
         setLoader(true,'redirecting....')
+        setUserSession(startResponse.data as UserSessionResponse);
         const ref =  setTimeout(()=> {
+          router.push('/home')
           clearTimeout(ref);
           setLoader(false);
-         },3000)
+         },1000)
       }
     },
     onError: (err) => {
