@@ -1,6 +1,6 @@
 "use server"
 
-import LandingPage from "./landing/page"
+import LandingPage from "./(private-pages)/landing/page"
 
 const FeaturePage = async ()=> {
 

@@ -33,6 +33,7 @@ export interface MessageBoxProps {
 
 export enum AppPathEnums  {
   HOME = '/home',
-  WRITE_POST='/writepost'
+  WRITE_POST='/writepost',
+  PUBLIC_LANDING_PAGE='/#landing'
 
 }

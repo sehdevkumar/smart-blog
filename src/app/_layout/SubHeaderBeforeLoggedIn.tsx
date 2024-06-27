@@ -1,4 +1,3 @@
-import { Link } from '@chakra-ui/next-js'
 import { Button } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
 

@@ -94,12 +94,12 @@ export default forwardRef<RichTextEditorRef, {}>(function RichTextEditor(
         const x = e?.clientX
         const y = e?.clientY + e?.height
 
-        storeCoordsRef.current = [x, y - 60]
+        storeCoordsRef.current = [x, y - 80]
         toolbar.style.top = `${storeCoordsRef?.current[1]}px`
         if (toolbarIcon) {
           toolbarIcon.style.position = 'fixed'
-          toolbarIcon.style.left = `280px`
-          toolbarIcon.style.top = `${y - 60}px`
+          toolbarIcon.style.left = `270px`
+          toolbarIcon.style.top = `${y - 80}px`
         }
       })
     }
