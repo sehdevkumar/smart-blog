@@ -14,15 +14,18 @@ import {
   Wrap,
   WrapItem,
 } from '@chakra-ui/react'
-import { getToken, getUserInfo, removeUserSession } from '../utils/user-session'
+import { getAccessToken, getUserInfo, removeUserSession } from '../utils/user-session'
 import axios, { type AxiosResponse } from 'axios'
 import { useMutation } from '@tanstack/react-query'
 import useHttpClientHandler from '../hooks/useHttpLoader'
+import { useApplicationContext } from '../context'
+import { AppEventEnum } from '~/pages/api/api-typings'
 
 const SubHeaderAfterLoggedInPage = () => {
   const routeName = usePathname()
   const router = useRouter()
   const [userInfo, setUserInfo] = useState<{ email: string; name: string }>()
+  const {dispatch} = useApplicationContext()
 
   const [isWritePage, setWritePage] = useState<boolean>(false)
   const [isDefaultPages, setDefaultPages] = useState<boolean>(false)
@@ -32,7 +35,7 @@ const SubHeaderAfterLoggedInPage = () => {
   
    const logoutUserFn = async (): Promise<AxiosResponse<any,any>>=> {
     const payload = {
-      token:getToken()
+      token:getAccessToken()
     }
     return await axios.post('/api/auth/logout',payload);
 
@@ -63,6 +66,10 @@ const SubHeaderAfterLoggedInPage = () => {
 
   const logOutHandler = ()=> {
       startLogoutMutation.mutate()
+  }
+
+  const handleDispatchStoryPublish = ()=> {
+     dispatch({type: AppEventEnum.PUBLISH_STORY,payload : Math.random()})
   }
 
 
@@ -102,6 +109,7 @@ const SubHeaderAfterLoggedInPage = () => {
       {isWritePage && (
         <>
           <Button
+            onClick={handleDispatchStoryPublish}
             style={{
               background: 'var(--app-btn-bg)',
               color: 'var(--app-btn-text)',

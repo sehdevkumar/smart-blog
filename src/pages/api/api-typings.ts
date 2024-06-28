@@ -20,4 +20,5 @@ export enum AppEventEnum {
   ERROR = "error",
   LOADER = "loader",
   WEBSOCKET_EVENT = "websocket-event",
+  PUBLISH_STORY = "publish_story"
 }

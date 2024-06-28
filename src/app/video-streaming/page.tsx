@@ -13,7 +13,7 @@ interface ViewInput {
 
 const VideoStreamingPage:React.FC<ViewInput> = (props: ViewInput) => {
   const [
-    getToken,
+    getAccessToken,
     setToken,
   ] = useState<Connection>()
 
@@ -24,7 +24,7 @@ const VideoStreamingPage:React.FC<ViewInput> = (props: ViewInput) => {
       const status = saveResponse.status;
       const config =  saveResponse.data;
       if([200,201].includes( status)) {
-        if(!getToken) {
+        if(!getAccessToken) {
           // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
           getInitTokenMutation.mutate(config)
         }
@@ -58,7 +58,7 @@ const VideoStreamingPage:React.FC<ViewInput> = (props: ViewInput) => {
   return (
 
     <div className='grid overflow-hidden relative grid-flow-col w-full h-full'>
-      <VideoRenderer token={getToken?.token}/>
+      <VideoRenderer token={getAccessToken?.token}/>
     </div>
   )
 }

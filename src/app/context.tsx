@@ -19,6 +19,7 @@ export type GlobalState = {
   error: any;
   loader: { state: boolean; text?: string } | null;
   webSocketData: any;
+  publishStory:any;
 };
 
 export type ApplicationType = {
@@ -39,7 +40,13 @@ type LoaderEvent = {
    payload: { state: boolean; text?: string }
 };
 
-export type AppEvent =  ErrorEvent | LoaderEvent;
+type PublishStoryEvent = {
+   type: AppEventEnum.PUBLISH_STORY;
+   payload: any
+};
+
+
+export type AppEvent =  ErrorEvent | LoaderEvent | PublishStoryEvent;
 
 const applicationContext = createContext<ApplicationType | undefined>(undefined);
 
@@ -60,6 +67,8 @@ const reducer = (state: GlobalState, action: AppEvent): GlobalState => {
       return { ...state, webSocketData: action.payload };
     case AppEventEnum.LOADER:
       return { ...state, loader: { state: action.payload.state, text: action.payload.text } };
+     case AppEventEnum.PUBLISH_STORY:
+      return { ...state, publishStory: action.payload};
     default:
       return state;
   }
@@ -72,7 +81,8 @@ const ApplicationProvider = React.memo(({ children }: { children: React.ReactNod
   const initialState: GlobalState = {
     error: null,
     loader: null,
-    webSocketData: null
+    webSocketData: null,
+    publishStory:null
   };
 
   const [state, dispatch] = useReducer(reducer, initialState);
