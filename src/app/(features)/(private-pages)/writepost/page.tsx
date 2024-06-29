@@ -6,11 +6,12 @@ import useHttpClientHandler from '~/app/hooks/useHttpLoader';
 import { useMutation } from '@tanstack/react-query';
 import { type AxiosResponse } from 'axios';
 import HttpClient from '~/app/utils/axios-instance-interceptor';
+import { AppEventEnum } from '~/pages/api/api-typings';
 
 function WritePostPage() {
    
   const richTextContentRef = useRef<any>(undefined);
-  const {state} = useApplicationContext()
+  const { state, dispatch } = useApplicationContext();
   const {setLoader,setError,setToast} = useHttpClientHandler(); 
 
 
@@ -46,9 +47,11 @@ function WritePostPage() {
 
   useEffect(()=> {
         
-    if(state.publishStory) {
+    if (state.publishStory && richTextContentRef.current.getValue()) {
       setLoader(true);
-      startPostStoryMutation.mutate()
+      startPostStoryMutation.mutate();
+      dispatch({ type: AppEventEnum.PUBLISH_STORY, payload: null });
+       richTextContentRef.current.setValue(null);
     }
 
   },[state.publishStory])

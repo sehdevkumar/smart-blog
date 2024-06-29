@@ -22,3 +22,12 @@ export enum AppEventEnum {
   WEBSOCKET_EVENT = "websocket-event",
   PUBLISH_STORY = "publish_story"
 }
+
+export interface UserType {
+  id: number;
+  email: string;
+  name: string;
+  iat: number; // Issued At Time (in seconds since Epoch)
+  exp: number; // Expiration Time (in seconds since Epoch)
+}
+
