@@ -42,13 +42,18 @@ function WritePostPage() {
     },
   });
     
+
+  const launchPostInput = ()=> {
+       startPostStoryMutation.mutate();
+       
+   } 
    
 
   useEffect(()=> {
         
     if (state.publishStory && richTextContentRef.current.getValue()) {
       setLoader(true);
-      startPostStoryMutation.mutate();
+      launchPostInput(); 
       dispatch({ type: AppEventEnum.PUBLISH_STORY, payload: null });
        richTextContentRef.current.setValue(null);
     }
