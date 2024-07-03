@@ -16,7 +16,6 @@ function WritePostPage() {
 
 
   const createPostHandler = async (): Promise<AxiosResponse<any,any>>=> {
-       console.log("look into me...",richTextContentRef.current.getValue())
     
        const payload = {
           story: richTextContentRef.current.getValue()

@@ -31,3 +31,27 @@ export interface UserType {
   exp: number; // Expiration Time (in seconds since Epoch)
 }
 
+
+
+export interface BlogPost {
+  authorId: number;
+  content: string;
+  createdAt: Date;
+  id: number;
+  published: boolean;
+  title: string | null;
+  updatedAt: Date;
+  name?:string;
+}
+
+
+export interface User {
+  id: number;
+  name: string;
+  email: string;
+  password: string;
+  posts: BlogPost[];
+  refreshToken?: string;
+  createdAt: Date;
+  updatedAt: Date;
+}

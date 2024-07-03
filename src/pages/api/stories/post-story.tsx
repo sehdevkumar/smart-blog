@@ -2,13 +2,13 @@
 import { type NextApiRequest, type NextApiResponse } from 'next';
 import { PrismaClient } from '@prisma/client';
 import { getUserOnServer } from '~/server/getServerToken';
-import { title } from 'process';
+import { type BlogPost } from '../api-typings';
 const prisma = new PrismaClient();
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  const user = getUserOnServer(req);
     if (req.method === 'POST') {
 
-        const user = getUserOnServer(req);
         if(!user) {
           return res.status(401).end(`unauthorised`);
         }
@@ -27,6 +27,29 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
          console.log(blog,user)
           return res.status(201).send({message: 'post created'});
+
+       
+    }
+      
+   
+     if (req.method === 'GET') {
+
+        if(!user) {
+          return res.status(401).end(`unauthorised`);
+        }
+         
+
+         const blogs: BlogPost[] = await prisma.blog.findMany(
+           {
+            where : {
+               authorId : user?.id,
+            },
+           }
+          ) as BlogPost[]
+          
+          blogs.map(d=> d.name = user.name);
+
+          return res.status(201).send([...blogs]);
 
        
     } else {
