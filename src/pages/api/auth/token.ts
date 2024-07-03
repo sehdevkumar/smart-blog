@@ -17,9 +17,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         jwt.verify(token, process.env.REFRESH_TOKEN_SECRET!, (err: any, decodedUser: any) => {
             if (err) return res.status(403);
 
-            const accessToken = generateAccessToken({ id: user.id, email: user.email });
+            const accessToken = generateAccessToken({
+                id: user.id, email: user.email,
+                name: user.name ?? ''
+            });
             res.json({ accessToken });
         });
+
+      return res.status(403);
+
     } else {
         res.setHeader('Allow', ['POST']);
         res.status(405).end(`Method ${req.method} Not Allowed`);
