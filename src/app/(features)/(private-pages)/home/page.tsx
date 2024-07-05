@@ -25,7 +25,6 @@ const HomePage =  ()=> {
     mutationFn: () => createPostHandler(),
     onSuccess: (startResponse) => {
       if ([200, 201].includes(startResponse?.status)) {
-      console.log(startResponse,"check response");
       setBlogPosts(startResponse.data as BlogPost[]);
       setLoader(false);
       }
@@ -50,7 +49,7 @@ const HomePage =  ()=> {
     return (
          <>
              
-       <div className="container h-max  mx-auto p-4 grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-[20px] justify-start items-start">
+       <div className="container h-max mx-auto  p-4 grid grid-cols-[repeat(auto-fit,minmax(400px,1fr))] gap-[20px] justify-start items-start">
         {getBlogPosts?.map(post => (
           <BlogCard key={post.id} post={post} />
         ))}
