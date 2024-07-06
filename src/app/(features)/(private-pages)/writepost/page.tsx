@@ -6,7 +6,7 @@ import useHttpClientHandler from "~/app/hooks/useHttpLoader";
 import { useMutation } from "@tanstack/react-query";
 import { type AxiosResponse } from "axios";
 import HttpClient from "~/app/utils/axios-instance-interceptor";
-import { AppEventEnum } from "~/pages/api/api-typings";
+import { AppEventEnum, BlogPost } from "~/pages/api/api-typings";
 import AlertDialogBox from "~/app/components/Alerts";
 import CreatePostTitle from "./_create-title/page";
 import { useSearchParams } from "next/navigation";
@@ -17,7 +17,7 @@ function WritePostPage() {
   const askCreatePostTitleRef = useRef<any>(undefined);
   const { state, dispatch } = useApplicationContext();
   const { setLoader, setError, setToast } = useHttpClientHandler();
-  const [getPostId,setPostId] = useState<string>();
+  const [getPostId,setPostId] = useState<number>();
   
    const waitQuery = debounce(()=> {
     startPostStoryMutation.mutate();
@@ -32,7 +32,7 @@ function WritePostPage() {
   useEffect(()=> {
      const id = query?.get('uuid');
      if(id) {
-       setPostId(id)
+       setPostId(+id)
      }
   },[query])
 
@@ -53,7 +53,10 @@ function WritePostPage() {
     mutationFn: () => createPostHandler(),
     onSuccess: (startResponse) => {
       if ([200, 201].includes(startResponse?.status)) {
-         setPostId(startResponse.data.id);
+        const {id} = startResponse.data as BlogPost
+        if(id){
+          setPostId(id);
+        }
       }
     },
     onError: (err) => {
