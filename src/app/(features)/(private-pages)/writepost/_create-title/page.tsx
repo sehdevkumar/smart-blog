@@ -38,6 +38,7 @@ const CreatePostTitle = () => {
   };
 
   useEffect(() => {
+    console.log(fromState,"check response");
     formRef.current?.reset();
     setLoading(false);
     setImageSrc("");

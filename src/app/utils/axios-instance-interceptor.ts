@@ -19,17 +19,8 @@ HttpClient.interceptors.request.use(
         return config;  // Return the modified config
     },
     error => {
-        // If an error occurs during the request setup, reject the promise
-        const errorResponse:AxiosError = {
-            status: 401,
-            isAxiosError: true,
-            toJSON: function (): object {
-                throw new Error('Invalid token');
-            },
-            name: '',
-            message: 'Invalid Token'
-        }
-        return Promise.reject(errorResponse);
+       
+        return Promise.reject(error);
     }
 );
 
@@ -67,16 +58,7 @@ HttpClient.interceptors.response.use(
         }
 
         // If the error is not a 401 or the request has already been retried, reject the promise with the error
-        const errorResponse: AxiosError = {
-            status: 401,
-            isAxiosError: true,
-            toJSON: function (): object {
-                throw new Error('Invalid token');
-            },
-            name: '',
-            message: 'Invalid Token'
-        }
-        return Promise.reject(errorResponse);
+        return Promise.reject(error);
     }
 );
 

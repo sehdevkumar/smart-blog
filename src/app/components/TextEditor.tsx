@@ -3,6 +3,7 @@
 'use client'
 import { AddIcon, SmallCloseIcon } from '@chakra-ui/icons'
 import React, {
+  HTMLAttributes,
   forwardRef,
   useEffect,
   useImperativeHandle,
@@ -33,14 +34,17 @@ const toolbarOptions = [
   ['clean'], // remove formatting button
 ]
 
-interface RichTextEditorRef {
-  getValue: () => string
-  setValue: (value: string) => void
-  clear: () => void
+interface RichTextEditorRef   extends  React.HTMLAttributes<HTMLElement> {
+  getValue?: () => string
+  setValue?: (value: string) => void,
+  onChange?: (arg)=> void,
+  clear?: () => void,
+  children?: React.ReactNode
+
 }
 
-export default forwardRef<RichTextEditorRef, {}>(function RichTextEditor(
-  props,
+export default forwardRef(function RichTextEditor(
+  props : RichTextEditorRef,
   ref,
 ) {
   const [value, setValue] = useState('')
@@ -114,12 +118,22 @@ export default forwardRef<RichTextEditorRef, {}>(function RichTextEditor(
     }
   }, [editorRef])
 
+
+  useEffect(()=> {
+       
+    if(value=='<p><br></p>' || value==='') {
+       return
+    }else {
+      (props as any).onChange(value)
+    }
+  }, [value])
+
   return (
     <div className='relative'>
       <div
         onClick={toolBarIconHandle}
         ref={toolbarIconRef}
-        className="z-[9999999999] cursor-pointer border-slate-800 border-[1px] w-[40px] h-[40px] rounded-full flex justify-center items-center"
+        className="z-[999] cursor-pointer border-slate-800 border-[1px] w-[40px] h-[40px] rounded-full flex justify-center items-center"
       >
         {getIconToggled && <SmallCloseIcon />}
         {!getIconToggled && <AddIcon />}
