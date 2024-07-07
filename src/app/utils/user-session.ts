@@ -90,7 +90,7 @@ const getRefreshToken = () => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     const parsed = JSON.parse(data as any) as UserSessionResponse;
 
-    return parsed.accessToken;
+    return parsed.refreshToken;
 
 
 }

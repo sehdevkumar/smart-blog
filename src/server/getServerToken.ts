@@ -1,6 +1,6 @@
 import { type NextApiRequest } from "next";
 import jwt from 'jsonwebtoken';
-import { UserType } from "~/pages/api/api-typings";
+import { type UserType } from "~/pages/api/api-typings";
 
 export const getUserOnServer = (req: NextApiRequest): UserType | null => {
   // Extract the token from the Authorization header
