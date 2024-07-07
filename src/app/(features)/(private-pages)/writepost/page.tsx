@@ -17,10 +17,10 @@ function WritePostPage() {
   const askCreatePostTitleRef = useRef<any>(undefined);
   const { state, dispatch } = useApplicationContext();
   const { setLoader, setError, setToast } = useHttpClientHandler();
-  const [getPostId,setPostId] = useState<number>();
+  const [getPostId,setPostId] = useState<any>();
   
    const waitQuery = debounce(()=> {
-    startPostStoryMutation.mutate();
+    startPostStoryMutation?.mutate();
   },500)
   
    /**
@@ -30,11 +30,43 @@ function WritePostPage() {
   const query = useSearchParams();
   
   useEffect(()=> {
-     const id = query?.get('uuid');
+     const id = query?.get('pid');
      if(id) {
-       setPostId(+id)
+       setPostId(id)
+         console.log("i am not working",id)
+        console.log(getPostId,id);
+      setLoader(true);
+
+         startgetStoryMutation?.mutate(id)
      }
   },[query])
+
+
+
+    const getPostHandler = async (id): Promise<AxiosResponse<any,any>>=> {
+      
+      
+       return await HttpClient.get(`/stories/post-story/?pid=${id}`);
+
+  }
+  
+  const startgetStoryMutation = useMutation({
+    mutationFn: (id:any) => getPostHandler(id),
+    onSuccess: (startResponse) => {
+      if ([200, 201].includes(startResponse?.status)) {
+        console.log("me what",startResponse)
+      richTextContentRef?.current?.setValue((startResponse?.data[0] as BlogPost)?.content)
+      setLoader(false);
+      }
+    },
+    onError: (err) => {
+      setLoader(false);
+      setError(err);
+      console.log("error", err);
+    },
+  });
+
+
 
 
   /**
@@ -44,7 +76,7 @@ function WritePostPage() {
   const createPostHandler = async (): Promise<AxiosResponse<any, any>> => {
     const payload = {
       story: richTextContentRef?.current?.getValue(),
-      id: getPostId
+      id: +getPostId
     };
     return await HttpClient.put("/stories/post-story", payload);
   };

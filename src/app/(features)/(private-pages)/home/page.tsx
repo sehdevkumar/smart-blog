@@ -40,6 +40,7 @@ const HomePage =  ()=> {
 
 
   useEffect(()=> {   
+    setLoader(true)
     startPostStoryMutation.mutate()
 
   },[])

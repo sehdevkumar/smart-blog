@@ -5,6 +5,15 @@ import { getUserOnServer } from '~/server/getServerToken';
 import { type BlogPost } from '../api-typings';
 const prisma = new PrismaClient();
 
+
+export const config = {
+    api: {
+        bodyParser: {
+            sizeLimit: '12mb' // Set desired value here
+        }
+    }
+}
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const user = getUserOnServer(req);
     if (req.method === 'POST') {
@@ -38,7 +47,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }
          
 
-         const blogs: BlogPost[] = await prisma.blog.findMany(
+         let blogs: BlogPost[] = await prisma.blog.findMany(
            {
             where : {
                authorId : user?.id,
@@ -47,6 +56,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           ) as BlogPost[]
           
           blogs.map(d=> d.name = user.name);
+
+          const isQueryid = req.query;
+          console.log(isQueryid)
+          if(isQueryid['pid']) {
+             blogs = blogs.filter(b=> ''+b.id === isQueryid['pid'])
+          }
 
           return res.status(201).send([...blogs]);
 

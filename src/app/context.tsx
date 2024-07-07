@@ -9,7 +9,7 @@ import React, {
   useReducer,
   useMemo,
 } from "react";
-import {  AppEventEnum } from "~/pages/api/api-typings";
+import {  AppEventEnum, BlogPost } from "~/pages/api/api-typings";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import ErrorDialog from "./components/ErrorDialog";
 import LoaderProvider from "./LoaderProvider";
@@ -20,6 +20,7 @@ export type GlobalState = {
   loader: { state: boolean; text?: string } | null;
   webSocketData: any;
   publishStory:any;
+  selectedPost: BlogPost | null
 };
 
 export type ApplicationType = {
@@ -45,8 +46,13 @@ type PublishStoryEvent = {
    payload: any
 };
 
+type SelectedBlogPost = {
+   type: AppEventEnum.SELECT_POST;
+   payload: any
+};
 
-export type AppEvent =  ErrorEvent | LoaderEvent | PublishStoryEvent;
+
+export type AppEvent =  ErrorEvent | LoaderEvent | PublishStoryEvent | SelectedBlogPost;
 
 const applicationContext = createContext<ApplicationType | undefined>(undefined);
 
@@ -69,6 +75,8 @@ const reducer = (state: GlobalState, action: AppEvent): GlobalState => {
       return { ...state, loader: { state: action.payload.state, text: action.payload.text } };
      case AppEventEnum.PUBLISH_STORY:
       return { ...state, publishStory: action.payload};
+       case AppEventEnum.SELECT_POST:
+      return { ...state, selectedPost: action.payload};
     default:
       return state;
   }
@@ -82,7 +90,8 @@ const ApplicationProvider = React.memo(({ children }: { children: React.ReactNod
     error: null,
     loader: null,
     webSocketData: null,
-    publishStory:null
+    publishStory:null,
+    selectedPost: null
   };
 
   const [state, dispatch] = useReducer(reducer, initialState);

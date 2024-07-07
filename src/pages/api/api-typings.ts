@@ -20,7 +20,8 @@ export enum AppEventEnum {
   ERROR = "error",
   LOADER = "loader",
   WEBSOCKET_EVENT = "websocket-event",
-  PUBLISH_STORY = "publish_story"
+  PUBLISH_STORY = "publish_story",
+  SELECT_POST = 'selected_post'
 }
 
 export interface UserType {
