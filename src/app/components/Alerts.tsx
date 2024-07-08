@@ -30,17 +30,18 @@ export default  forwardRef(function AlertDialogBox(props:AlertCallBacks,ref) {
 
 
   return (
-    <Box display={'none'}>
+    <Box width={'max-content'} background={'transparent'} display={'none'}>
       <AlertDialog
         motionPreset='slideInBottom'
         leastDestructiveRef={cancelRef}
         onClose={onClose}
         isOpen={isOpen}
+      
         isCentered
       >
         <AlertDialogOverlay />
 
-        <AlertDialogContent>
+        <AlertDialogContent maxWidth={'max-content'} justifyContent={'center'} width={'auto'} overflow={'hidden'}>
           <AlertDialogHeader>
               <span className="inter">
               {props?.title}

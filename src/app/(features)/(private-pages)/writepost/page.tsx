@@ -6,11 +6,12 @@ import useHttpClientHandler from "~/app/hooks/useHttpLoader";
 import { useMutation } from "@tanstack/react-query";
 import { type AxiosResponse } from "axios";
 import HttpClient from "~/app/utils/axios-instance-interceptor";
-import { AppEventEnum, BlogPost } from "~/pages/api/api-typings";
+import { AppEventEnum, type BlogPost } from "~/pages/api/api-typings";
 import AlertDialogBox from "~/app/components/Alerts";
 import CreatePostTitle from "./_create-title/page";
 import { useSearchParams } from "next/navigation";
 import { debounce } from "lodash";
+import { Badge } from "@chakra-ui/react";
 
 function WritePostPage() {
   const richTextContentRef = useRef<any>(undefined);
@@ -18,6 +19,7 @@ function WritePostPage() {
   const { state, dispatch } = useApplicationContext();
   const { setLoader, setError, setToast } = useHttpClientHandler();
   const [getPostId,setPostId] = useState<any>();
+  const [isTyping,setTypings] = useState<boolean>(true);
   
    const waitQuery = debounce(()=> {
     startPostStoryMutation?.mutate();
@@ -33,11 +35,8 @@ function WritePostPage() {
      const id = query?.get('pid');
      if(id) {
        setPostId(id)
-         console.log("i am not working",id)
-        console.log(getPostId,id);
-      setLoader(true);
-
-         startgetStoryMutation?.mutate(id)
+       setLoader(true);
+       startgetStoryMutation?.mutate(id)
      }
   },[query])
 
@@ -54,7 +53,6 @@ function WritePostPage() {
     mutationFn: (id:any) => getPostHandler(id),
     onSuccess: (startResponse) => {
       if ([200, 201].includes(startResponse?.status)) {
-        console.log("me what",startResponse)
       richTextContentRef?.current?.setValue((startResponse?.data[0] as BlogPost)?.content)
       setLoader(false);
       }
@@ -86,6 +84,7 @@ function WritePostPage() {
     onSuccess: (startResponse) => {
       if ([200, 201].includes(startResponse?.status)) {
         const {id} = startResponse.data as BlogPost
+        setTypings(false);
         if(id){
           setPostId(id);
         }
@@ -111,12 +110,18 @@ function WritePostPage() {
 
 
    const onChangeRichTextContent = useCallback((arg:any)=> {
+    setTypings(true);
     waitQuery()
    },[])
 
 
   return (
     <div className="grid relative h-[calc(100%-0px)]  desktop:w-[calc(100%-500px)] mobile:w-full m-auto p-20">
+      {!isTyping && <div className="fixed text-center w-full translate-y-[-50%] left-[50%] top-[70px] translate-x-[-50%]">
+        <Badge variant='solid' colorScheme='green'>
+    Changes Saved
+  </Badge>
+      </div> }
       <RichTextEditor ref={richTextContentRef}  onChange={onChangeRichTextContent}/>
       <AlertDialogBox ref={askCreatePostTitleRef}>
         <CreatePostTitle />

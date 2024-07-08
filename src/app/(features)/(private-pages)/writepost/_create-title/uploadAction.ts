@@ -3,15 +3,13 @@
 
 
 "use server";
-import sharp from "sharp";
 
 export interface FromIniialState {
-    message:string;
+   message: { fileName:string, event:string, desc:string, location: string, buffer: null | Uint8Array }
 }
 
-const UploadAction = async (prevState: FromIniialState, formData: FormData)=> {
+const UploadAction = async (_prevState: FromIniialState, formData: FormData)=> {
 
-     const apiUrl = `https://eventworld.onrender.com/api/event`;
      const event = formData.get("event");
      const desc = formData.get("description");
      const location = formData.get("location");
@@ -21,30 +19,11 @@ const UploadAction = async (prevState: FromIniialState, formData: FormData)=> {
       const fileName = file?.name;
       const arrayBuffer = await file.arrayBuffer();
       const buffer = new Uint8Array(arrayBuffer);
-      const compressedImageBuffer = await sharp(buffer)
-        .resize({ width: 800 }) // Resize the image if needed
-        .toBuffer();
+      
 
      return {
-        message: "Done",
-        imagePath: ''
+         messsage: { fileName, event, desc, location, buffer }
      }
-
-
-    await fetch(apiUrl,{
-        method: 'POST',
-        headers: {
-           'Content-Type': 'application/json',
-        },
-        body : JSON.stringify({
-            
-        })
-    })
- 
-    return {
-        message: "Form Successfully"
-    }
-
 }
 
 
