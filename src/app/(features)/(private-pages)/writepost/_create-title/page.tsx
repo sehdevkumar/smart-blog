@@ -52,7 +52,7 @@ const CreatePostTitle = () => {
       <div className="grid h-full  justify-center overflow-auto">
         <div className="flex flex-1 mobile:justify-center mobile:items-center gap-4 w-full mobile:flex-col desktop:flex-row tablet:flex-row large-screen:flex-row desktop:justify-start desktop:items-start ">
           <form className="flex-[4]" action={action} ref={formRef}>
-           <p className="text-[24px]">Publish Story</p>
+           <p className="text-[24px]">Story Preview</p>
             <div className="flex h-max tablet:min-w-[800px] desktop:min-w-[900px] mobile:min-w-[200px] mobile:flex-col desktop:flex-row tablet:flex-row justify-center gap-y-[10px] rounded-md p-[20px] shadow-md shadow-slate-200 overflow-hidden gap-[15px]">
               <div className="w-full">
                 <FormControl isRequired>
@@ -82,10 +82,10 @@ const CreatePostTitle = () => {
               </div>
 
               <div className="w-full flex flex-col gap-[10px]">
-
+              Publishing to: Sehdev
               <div>
                 <FormControl isRequired>
-                  <FormLabel>Event</FormLabel>
+                  <FormLabel>Title</FormLabel>
                   <Input placeholder="Event title" name="event" />
                 </FormControl>
               </div>

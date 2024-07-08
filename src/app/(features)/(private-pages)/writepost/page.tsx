@@ -4,7 +4,7 @@ import RichTextEditor from "../../../components/TextEditor";
 import { useApplicationContext } from "~/app/context";
 import useHttpClientHandler from "~/app/hooks/useHttpLoader";
 import { useMutation } from "@tanstack/react-query";
-import { type AxiosResponse } from "axios";
+import { AxiosError, type AxiosResponse } from "axios";
 import HttpClient from "~/app/utils/axios-instance-interceptor";
 import { AppEventEnum, type BlogPost } from "~/pages/api/api-typings";
 import AlertDialogBox from "~/app/components/Alerts";
@@ -72,11 +72,11 @@ function WritePostPage() {
    * @returns 
    */
   const createPostHandler = async (): Promise<AxiosResponse<any, any>> => {
-    const payload = {
-      story: richTextContentRef?.current?.getValue(),
-      id: +getPostId
-    };
-    return await HttpClient.put("/stories/post-story", payload);
+      const payload = {
+        story: richTextContentRef?.current?.getValue(),
+        id: +getPostId
+      };
+      return await HttpClient.put("/stories/post-story", payload);
   };
 
   const startPostStoryMutation = useMutation({
@@ -84,8 +84,9 @@ function WritePostPage() {
     onSuccess: (startResponse) => {
       if ([200, 201].includes(startResponse?.status)) {
         const {id} = startResponse.data as BlogPost
-        setTypings(false);
+        const refTimeout = setTimeout(()=> {setTypings(true);clearTimeout(refTimeout)},4000)
         if(id){
+          setTypings(false);
           setPostId(id);
         }
       }
@@ -103,21 +104,22 @@ function WritePostPage() {
     if (state.publishStory && richTextContentRef.current.getValue()) {
       launchPostInput();
       dispatch({ type: AppEventEnum.PUBLISH_STORY, payload: null });
-      richTextContentRef.current.setValue(null);
     }
   }, [state.publishStory]);
   
 
 
    const onChangeRichTextContent = useCallback((arg:any)=> {
-    setTypings(true);
+    if(richTextContentRef?.current?.getValue()!==null){
+      setTypings(true);
+    }
     waitQuery()
    },[])
 
 
   return (
     <div className="grid relative h-[calc(100%-0px)]  desktop:w-[calc(100%-500px)] mobile:w-full m-auto p-20">
-      {!isTyping && <div className="fixed text-center w-full translate-y-[-50%] left-[50%] top-[70px] translate-x-[-50%]">
+      {!isTyping && <div className="z-[99999999] fixed text-center w-full translate-y-[-50%] left-[50%] top-[70px] translate-x-[-50%]">
         <Badge variant='solid' colorScheme='green'>
     Changes Saved
   </Badge>
