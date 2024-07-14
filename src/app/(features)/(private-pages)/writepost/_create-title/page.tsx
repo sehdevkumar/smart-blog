@@ -17,7 +17,7 @@ const initialState: FromIniialState = {
    message: {fileName: '',event: '',desc: '',location: '', buffer : null }
 };
 
-const CreatePostTitle = () => {
+const CreatePostTitle = ({storyId}: {storyId:string | number}) => {
   const fileRef = useRef<any>();
   const [imageSrc, setImageSrc] = useState<string | ArrayBuffer | null>(null);
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
@@ -40,7 +40,8 @@ const CreatePostTitle = () => {
   };
 
   useEffect(() => {
-    console.log(fromState,"check response");
+    console.log(fromState,"check response",storyId);
+    
     formRef.current?.reset();
     setLoading(false);
     setImageSrc("");
@@ -86,13 +87,13 @@ const CreatePostTitle = () => {
               <div>
                 <FormControl isRequired>
                   <FormLabel>Title</FormLabel>
-                  <Input placeholder="Event title" name="event" />
+                  <Input placeholder="Title" name="event" />
                 </FormControl>
               </div>
               <div>
                 <FormControl isRequired>
                   <FormLabel>Location</FormLabel>
-                  <Input placeholder="Event Location" name="location" />
+                  <Input placeholder="Location" name="location" />
                 </FormControl>
               </div>
            

@@ -17,7 +17,7 @@ const HomePage =  ()=> {
 
   const createPostHandler = async (): Promise<AxiosResponse<any,any>>=> {
       
-       return await HttpClient.get('/stories/post-story');
+       return await HttpClient.get('/stories/get-story');
 
   }
   

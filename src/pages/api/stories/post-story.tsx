@@ -9,7 +9,7 @@ const prisma = new PrismaClient();
 export const config = {
   api: {
     bodyParser: {
-      sizeLimit: "4mb", // Set desired value here
+      sizeLimit: "12mb", // Set desired value here
     },
   },
 };
@@ -52,7 +52,6 @@ export default async function handler(
     blogs.map((d) => (d.name = user.name));
 
     const isQueryid = req.query;
-    console.log(isQueryid);
     if (isQueryid["pid"]) {
       blogs = blogs.filter((b) => "" + b.id === isQueryid["pid"]);
     }

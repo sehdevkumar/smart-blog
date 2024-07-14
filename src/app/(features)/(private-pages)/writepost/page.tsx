@@ -4,7 +4,7 @@ import RichTextEditor from "../../../components/TextEditor";
 import { useApplicationContext } from "~/app/context";
 import useHttpClientHandler from "~/app/hooks/useHttpLoader";
 import { useMutation } from "@tanstack/react-query";
-import { AxiosError, type AxiosResponse } from "axios";
+import { type AxiosResponse } from "axios";
 import HttpClient from "~/app/utils/axios-instance-interceptor";
 import { AppEventEnum, type BlogPost } from "~/pages/api/api-typings";
 import AlertDialogBox from "~/app/components/Alerts";
@@ -23,7 +23,7 @@ function WritePostPage() {
   
    const waitQuery = debounce(()=> {
     startPostStoryMutation?.mutate();
-  },500)
+  },10)
   
    /**
   //  1. if User natvigated from Draft or Edit story.
@@ -126,7 +126,7 @@ function WritePostPage() {
       </div> }
       <RichTextEditor ref={richTextContentRef}  onChange={onChangeRichTextContent}/>
       <AlertDialogBox ref={askCreatePostTitleRef}>
-        <CreatePostTitle />
+        <CreatePostTitle  storyId={getPostId}/>
       </AlertDialogBox>
     </div>
   );

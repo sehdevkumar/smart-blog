@@ -18,8 +18,7 @@ const UploadAction = async (_prevState: FromIniialState, formData: FormData)=> {
 
       const fileName = file?.name;
       const arrayBuffer = await file.arrayBuffer();
-      const buffer = new Uint8Array(arrayBuffer);
-      
+      const buffer = new Uint8Array(arrayBuffer);      
 
      return {
          messsage: { fileName, event, desc, location, buffer }
