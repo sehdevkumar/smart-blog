@@ -56,3 +56,13 @@ export interface User {
   createdAt: Date;
   updatedAt: Date;
 }
+
+
+export interface  BlogThumbnail {
+  buffer:string;
+  desc: string;
+  event: string;
+  blogId : string;
+  fileName?: string;
+  location: string;
+}

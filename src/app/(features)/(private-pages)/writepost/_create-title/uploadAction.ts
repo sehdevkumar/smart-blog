@@ -5,7 +5,7 @@
 "use server";
 
 export interface FromIniialState {
-   message: { fileName:string, event:string, desc:string, location: string, buffer: null | Uint8Array }
+   fileName: string, event: string, desc: string, location: string, buffer: null | ArrayBuffer 
 }
 
 const UploadAction = async (_prevState: FromIniialState, formData: FormData)=> {
@@ -17,12 +17,9 @@ const UploadAction = async (_prevState: FromIniialState, formData: FormData)=> {
      const file = formData.get("upload_file") as File;
 
       const fileName = file?.name;
-      const arrayBuffer = await file.arrayBuffer();
-      const buffer = new Uint8Array(arrayBuffer);      
 
-     return {
-         messsage: { fileName, event, desc, location, buffer }
-     }
+     return    { fileName, event, desc, location }
+     
 }
 
 

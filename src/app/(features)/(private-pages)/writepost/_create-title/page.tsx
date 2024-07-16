@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-base-to-string */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 "use client";
@@ -13,8 +14,15 @@ import {
   Textarea,
   Image,
 } from "@chakra-ui/react";
+import { type BlogThumbnail } from "~/pages/api/api-typings";
+import useHttpClientHandler from "~/app/hooks/useHttpLoader";
+import { useMutation } from "@tanstack/react-query";
+import HttpClient from "~/app/utils/axios-instance-interceptor";
+import { isPropEmpty } from "~/app/utils/utilfunctions";
+import { useRouter } from "next/navigation";
+import { AppPathEnums } from "~/app/typings/app-typings";
 const initialState: FromIniialState = {
-   message: {fileName: '',event: '',desc: '',location: '', buffer : null }
+  fileName: '',event: '',desc: '',location: '', buffer : null 
 };
 
 const CreatePostTitle = ({storyId}: {storyId:string | number}) => {
@@ -22,34 +30,63 @@ const CreatePostTitle = ({storyId}: {storyId:string | number}) => {
   const [imageSrc, setImageSrc] = useState<string | ArrayBuffer | null>(null);
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   const [fromState, action] = useFormState(UploadAction as any, initialState);
+   const { setLoader, setError, setToast } = useHttpClientHandler();
   const formRef = useRef<HTMLFormElement>(null);
-  const [isLoading, setLoading] = useState<boolean>(false);
-
+  const [isFormValid,setFormValid] = useState<boolean>(true);
+  const router = useRouter()
   const onFileHandlerChanged = () => {
-    setLoading(true);
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const file: File | null = fileRef?.current?.files?.[0] ?? null;
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setLoading(false);
         setImageSrc(reader?.result);
       };
       reader.readAsDataURL(file);
     }
   };
 
+
+  const postThumbnail= async (paload: BlogThumbnail)=> {
+       return await HttpClient.put(`/stories/post-thumbnail`,paload);
+  }
+
+
+    const starBlogThumbnailMutation = useMutation({
+    mutationFn: (paload: BlogThumbnail) => postThumbnail(paload),
+    onSuccess: (startResponse) => {
+      if ([200, 201].includes(startResponse?.status)) {
+      setLoader(false);
+      router.push(AppPathEnums.HOME)
+      }
+    },
+    onError: (err) => {
+      setLoader(false);
+      setError(err);
+      formRef.current?.preventDefault()
+      console.log("error", err);
+    },
+  });
   useEffect(() => {
-    console.log(fromState,"check response",storyId);
+    const payload: BlogThumbnail =  {
+      fileName: fromState?.fileName ,
+      event: fromState.event,
+      desc: fromState.desc,
+      location: fromState?.location,
+      buffer: imageSrc as string,
+      blogId: storyId + ''
+     }
     
-    formRef.current?.reset();
-    setLoading(false);
-    setImageSrc("");
+    if(fromState.event) {
+       if(payload.event && payload.desc) { 
+         setLoader(true);
+         starBlogThumbnailMutation.mutate(payload);
+       }  
+    }
   }, [fromState]);
 
   return (
     <>
-      {isLoading && <Loading />}
       <div className="grid h-full  justify-center overflow-auto">
         <div className="flex flex-1 mobile:justify-center mobile:items-center gap-4 w-full mobile:flex-col desktop:flex-row tablet:flex-row large-screen:flex-row desktop:justify-start desktop:items-start ">
           <form className="flex-[4]" action={action} ref={formRef}>
@@ -106,8 +143,9 @@ const CreatePostTitle = ({storyId}: {storyId:string | number}) => {
 
               <div>
                 <Button
+                  className={`${isFormValid ? '' : 'no-ptr'}`}
                   style={{background: "var(--app-btn-bg)"}}
-                  onClick={() => setLoading(true)}
+
                   type="submit"
                   color={'var(--app-btn-text)'}
                   >
