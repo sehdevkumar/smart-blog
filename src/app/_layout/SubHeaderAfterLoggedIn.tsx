@@ -50,7 +50,7 @@ const SubHeaderAfterLoggedInPage = () => {
         setLoader(true,'redirecting....')
         removeUserSession();
         const ref =  setTimeout(()=> {
-          router.push('/login')
+          router.push('/#landing')
           clearTimeout(ref);
           setLoader(false);
          },2000)

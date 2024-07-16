@@ -48,7 +48,7 @@ const CreatePostTitle = ({storyId}: {storyId:string | number}) => {
 
 
   const postThumbnail= async (paload: BlogThumbnail)=> {
-       return await HttpClient.put(`/stories/post-thumbnail`,paload);
+       return await HttpClient.put(`/stories/thumbnail`,paload);
   }
 
 

@@ -60,17 +60,24 @@ const upsertedThumbnail = await prisma.blogThumbnail.upsert({
 
 
 return res.status(201).send({ message: "Thumbnail created" });
-
   }
-
   if (req.method === "GET") {
     if (!user) {
-      return res.status(401).end(`unauthorised`);
+      const blogsThumbnail: BlogThumbnail[] = (await prisma.blogThumbnail.findMany() as unknown as BlogThumbnail[]);
+      return res.status(blogsThumbnail ? 200 : 204).send(blogsThumbnail);
     }
-
-
-
-    return res.status(201).send([]);
+     const blogsThumbnail: BlogThumbnail[] = (await prisma.blogThumbnail.findMany({
+        where: {
+          blog : { 
+            authorId: user?.id,
+          },
+        },
+        include: {
+           blog :true
+        }
+      })) as unknown as BlogThumbnail[];
+        
+    return res.status(blogsThumbnail ? 200 : 204).send(blogsThumbnail);
   }
 
    else {
