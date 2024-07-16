@@ -67,6 +67,9 @@ export default async function handler(
     try {
       const { id, story } = req.body;
 
+
+      console.log(id,story);
+
       let upsertedBlog;
 
       if (id) {

@@ -10,8 +10,11 @@ import React, {
   useRef,
   useState,
 } from 'react'
-import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
+import dynamic from 'next/dynamic'
+
+
+export const ReactQuill = dynamic(()=> import('react-quill'), {ssr:false})
 
 const toolbarOptions = [
   ['bold', 'italic', 'underline', 'strike'], // toggled buttons
@@ -61,6 +64,8 @@ export default forwardRef(function RichTextEditor(
   }))
 
   const toolBarIconHandle = () => {
+      const toolbar = document.querySelector('.ql-toolbar')!
+        toolBarRef.current = toolbar
     if (!getIconToggled) {
       const toolbar = toolBarRef.current as HTMLDivElement
       if (toolbar) {
@@ -78,45 +83,48 @@ export default forwardRef(function RichTextEditor(
         toolbar.style.position = 'fixed'
         // toolbar.style.left = `${(storeCoordsRef?.current[0])}px`
         toolbar.style.top = `${storeCoordsRef?.current[1]}px`
+        toolbar.style.display = 'none'
       }
-      toolbar.style.display = 'none'
       setIconToggled(false)
     }
   }
 
   useEffect(() => {
-    if (typeof window !== "undefined" && document) {
-      const editorElement = editorRef?.current?.getEditor()?.root
+    if (typeof window !=='undefined') {
       // eslint-disable-next-line @typescript-eslint/non-nullable-type-assertion-style
-      const toolbar = document.querySelector('.ql-toolbar')!
-      toolBarRef.current = toolbar
-      editorElement?.addEventListener('pointerdown', (e: PointerEvent) => {
+      const editorElement = editorRef?.current?.getEditor()?.root
+      if(!toolBarRef.current) {
+        const toolbar = document.querySelector('.ql-toolbar')!
+        toolBarRef.current = toolbar
 
-        const toolbar = toolBarRef?.current as HTMLDivElement
-        
-        const toolbarIcon = toolbarIconRef?.current as HTMLDivElement
-        const x = e?.clientX
-        const y = e?.clientY + e?.height
-
-        storeCoordsRef.current = [x, y - 80]
-        toolbar.style.top = `${storeCoordsRef?.current[1]}px`
-        if (toolbarIcon) {
-          toolbarIcon.style.position = 'fixed'
-          toolbarIcon.style.left = `270px`
-          toolbarIcon.style.top = `${y - 80}px`
-        }
-      })
+      }
+        editorElement?.addEventListener('pointerdown', (e: PointerEvent) => {
+  
+          const toolbar = toolBarRef?.current as HTMLDivElement
+          
+          const toolbarIcon = toolbarIconRef?.current as HTMLDivElement
+          const x = e?.clientX
+          const y = e?.clientY + e?.height
+  
+          storeCoordsRef.current = [x, y - 80]
+          toolbar.style.top = `${storeCoordsRef?.current[1]}px`
+          if (toolbarIcon) {
+            toolbarIcon.style.position = 'fixed'
+            toolbarIcon.style.left = `270px`
+            toolbarIcon.style.top = `${y - 80}px`
+          }
+        })
     }
 
     return () => {
-      if (editorRef?.current && typeof window !== "undefined" && document) {
+      if (editorRef?.current) {
         const editorElement = editorRef?.current?.getEditor()?.root
         editorElement?.removeEventListener('pointerdown', (e: PointerEvent) => {
           // Cleanup logic
         })
       }
     }
-  }, [editorRef])
+  }, [editorRef.current])
 
 
   useEffect(()=> {
@@ -138,7 +146,7 @@ export default forwardRef(function RichTextEditor(
         {getIconToggled && <SmallCloseIcon />}
         {!getIconToggled && <AddIcon />}
       </div>
-      <div >
+     { typeof window !== 'undefined'  && <div >
         <ReactQuill
           ref={editorRef}
           modules={{ toolbar: toolbarOptions}}
@@ -148,7 +156,8 @@ export default forwardRef(function RichTextEditor(
           onChange={setValue}
         />
         
-      </div>
+      </div> 
+     }
     </div>
   )
 })

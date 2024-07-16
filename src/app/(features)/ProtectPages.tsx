@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { isUserLoggedIn } from '../utils/user-session'
-import PublicLandingPage from './(public-pages)/#landing/page'
+import PublicLandingPage from './(public-pages)/public-landing/page'
 import GlobalLoader from '../components/GlobalLoader'
 
 const ProtectPages = ({ children }) => {
