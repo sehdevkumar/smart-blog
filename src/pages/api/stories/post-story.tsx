@@ -4,6 +4,7 @@ import { type NextApiRequest, type NextApiResponse } from "next";
 import { PrismaClient } from "@prisma/client";
 import { getUserOnServer } from "~/server/getServerToken";
 import { type BlogPost } from "../api-typings";
+import { generateRandomString } from "~/app/utils/utilfunctions";
 const prisma = new PrismaClient();
 
 export const config = {
@@ -28,6 +29,7 @@ export default async function handler(
       data: {
         title: req?.body?.title,
         content: req?.body?.story,
+        uuid: generateRandomString(10),
         published: true,
         author: {
           connect: { id: user.id },
@@ -68,7 +70,6 @@ export default async function handler(
       const { id, story } = req.body;
 
 
-      console.log(id,story);
 
       let upsertedBlog;
 
@@ -86,6 +87,7 @@ export default async function handler(
           create: {
             content: story,
             published: false,
+            uuid: generateRandomString(10),
             author: {
               connect: { id: user.id },
             },
