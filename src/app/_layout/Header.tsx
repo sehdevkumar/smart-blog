@@ -3,7 +3,8 @@ import React from 'react';
 import DynamicHeaderPage from './DynamicHeader';
 
 const HeaderPage = () => {
-  
+   
+  console.log("i did rendered again....")
 
 
   return (

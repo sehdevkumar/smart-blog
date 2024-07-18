@@ -2,6 +2,7 @@
 
 import { PrismaClient } from '@prisma/client';
 import { type NextApiRequest, type NextApiResponse } from 'next';
+import { setCookie } from 'nookies';
 const prisma = new PrismaClient();
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -11,6 +12,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         await prisma.user.updateMany({
             where: { refreshToken: token },
             data: { refreshToken: null }
+        });
+
+
+        // Destroy the __userSession__ cookie
+        setCookie({ res }, '__userSession__', '', {
+            httpOnly: true,
+            secure: process.env.NODE_ENV !== 'development',
+            maxAge: -1, // Set the maxAge to a negative value to delete the cookie
+            path: '/',
         });
 
         res.status(204).end();

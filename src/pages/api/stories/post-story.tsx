@@ -1,10 +1,12 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/dot-notation */
 // pages/api/stories/post-story.ts
 import { type NextApiRequest, type NextApiResponse } from "next";
 import { PrismaClient } from "@prisma/client";
 import { getUserOnServer } from "~/server/getServerToken";
 import { type BlogPost } from "../api-typings";
-import { generateRandomString } from "~/app/utils/utilfunctions";
+import { getHashedString } from "~/app/utils/utilfunctions";
+
 const prisma = new PrismaClient();
 
 export const config = {
@@ -29,7 +31,6 @@ export default async function handler(
       data: {
         title: req?.body?.title,
         content: req?.body?.story,
-        uuid: generateRandomString(10),
         published: true,
         author: {
           connect: { id: user.id },
@@ -87,7 +88,6 @@ export default async function handler(
           create: {
             content: story,
             published: false,
-            uuid: generateRandomString(10),
             author: {
               connect: { id: user.id },
             },
@@ -95,10 +95,12 @@ export default async function handler(
         });
       } else {
         // If id is not present, create a new blog post
+        const generateHash = getHashedString(id+'');
         upsertedBlog = await prisma.blog.create({
           data: {
             content: story,
             published: false,
+            uuid:  generateHash,
             author: {
               connect: { id: user.id },
             },

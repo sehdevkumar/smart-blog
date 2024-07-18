@@ -1,15 +1,16 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
-import { Box, Text, Heading, Button, Badge, Image, SimpleGrid } from '@chakra-ui/react';
-import { AxiosResponse } from 'axios';
+import { Box, Text, Heading, Button, Badge, Image, SimpleGrid, Link } from '@chakra-ui/react';
+import { type AxiosResponse } from 'axios';
 import { useMutation } from '@tanstack/react-query';
 import HttpClient from '~/app/utils/axios-instance-interceptor';
-import { BlogThumbnail } from '@prisma/client';
+import { type CombineBlogResponse } from '~/pages/api/api-typings';
+import { useRouter } from 'next/navigation';
 
  function PublicLandingPage() {
    
-  const [getBlogThumbnails, setBlogThumnails] = useState<BlogThumbnail[]>([])
+  const [getBlogThumbnails, setBlogThumnails] = useState<CombineBlogResponse[]>([])
 
  
   const getThumbnailHandler = async (): Promise<AxiosResponse<any, any>> => {
@@ -20,7 +21,7 @@ import { BlogThumbnail } from '@prisma/client';
     mutationFn: () => getThumbnailHandler(),
     onSuccess: (startResponse) => {
       if ([200, 201].includes(startResponse?.status)) {
-        const blogdata = startResponse.data as BlogThumbnail[];
+        const blogdata = startResponse.data as CombineBlogResponse[];
         setBlogThumnails(blogdata);
         
       }
@@ -42,7 +43,7 @@ import { BlogThumbnail } from '@prisma/client';
         {/* Render Thumbnails */}
         <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={10} mt={8}>
           {getBlogThumbnails.map((thumbnail) => (
-            <BlogCard key={thumbnail.blogId} {...thumbnail} />
+            <BlogCard key={thumbnail.blogId} response={thumbnail} />
           ))}
         </SimpleGrid>
 
@@ -62,7 +63,17 @@ function HeroSection() {
 }
 
 
-const BlogCard = ({ buffer, desc, event, blogId, fileName, location }) => {
+const BlogCard = ({ response }: {response: CombineBlogResponse}) => {
+
+  const router  = useRouter()
+    
+  const onReadFullStory = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,uuid:string)=> {
+   e.preventDefault();
+   router.push(`/read-story/${uuid}`)
+   console.log(uuid);
+  }
+
+
   return (
     <Box
       maxW="sm"
@@ -71,12 +82,12 @@ const BlogCard = ({ buffer, desc, event, blogId, fileName, location }) => {
       overflow="hidden"
       className="shadow-lg"
     >
-      <Image src={buffer} alt={fileName} className="w-full h-48 object-cover" />
+      <Image src={response.buffer} alt={response.fileName} className="w-full h-48 object-cover" />
 
       <Box p="6">
         <Box className="flex" alignItems="baseline">
           <Badge borderRadius="full" px="2" colorScheme="teal">
-            {event}
+            {response?.event}
           </Badge>
         </Box>
 
@@ -87,12 +98,17 @@ const BlogCard = ({ buffer, desc, event, blogId, fileName, location }) => {
           lineHeight="tight"
           className="text-lg"
         >
-          {desc}
+          {response?.desc}
         </Box>
 
+        <Box display={'flex'} justifyContent={'space-between'} alignItems={'center'}>
         <Text mt="2" color="gray.500">
-          Location: {location}
+          Location: {response?.location}
         </Text>
+        <Link onClick={(e)=> onReadFullStory(e,response?.blog?.uuid ?? '')} colorScheme='blue' color={'#1f71ed'}>Read more</Link>
+        </Box>
+
+
       </Box>
     </Box>
   );

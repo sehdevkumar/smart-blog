@@ -63,7 +63,11 @@ return res.status(201).send({ message: "Thumbnail created" });
   }
   if (req.method === "GET") {
     if (!user) {
-      const blogsThumbnail: BlogThumbnail[] = (await prisma.blogThumbnail.findMany() as unknown as BlogThumbnail[]);
+      const blogsThumbnail: BlogThumbnail[] = (await prisma.blogThumbnail.findMany({ 
+        include: {
+            blog: true
+        }
+      }) as unknown as BlogThumbnail[]);
       return res.status(blogsThumbnail ? 200 : 204).send(blogsThumbnail);
     }
      const blogsThumbnail: BlogThumbnail[] = (await prisma.blogThumbnail.findMany({

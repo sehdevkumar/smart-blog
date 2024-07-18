@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import _ from 'lodash';
-
+import * as jssha from 'jssha';
 export function isNullOrUndef(obj: any) {
   return obj === null || obj === undefined;
 }
@@ -30,7 +30,7 @@ export function isPropEmpty(val: any): boolean {
 }
 
 
-export function flattenObject(obj:any): any {
+export function flattenObject(obj: any): any {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   return Object.keys(obj).reduce((acc, key) => {
     if (typeof obj[key] === 'object' && obj[key] !== null) {
@@ -51,39 +51,6 @@ export function handleTableCellData(val: any): any {
   }
 }
 
-export function convertMsIntoDayHrMinFormat(ms: number) {
-  if (isPropEmpty(ms)) {
-    return;
-  }
-
-  const totalDayMS = 24 * 60 * 60 * 1000;
-  const totalHrMS = 60 * 60 * 1000;
-  const totalMinMS = 60 * 1000;
-  const totalSecMS = 1000;
-
-  // let day = Math.floor(ms / totalDayMS);
-  let hr = Math.floor(ms / totalHrMS);
-  let min = Math.floor((ms - hr * totalHrMS) / totalMinMS);
-  let sec = Math.abs(Math.ceil((ms - hr * totalHrMS - min * totalMinMS) / totalSecMS));
-
-  if (sec === 60) {
-    min++;
-    sec = 0;
-  }
-
-  if (min === 60) {
-    hr++;
-    min = 0;
-  }
-
-  // if (hr === 24) {
-  //   day++;
-  //   hr = 0;
-  // }
-  const paddedStr = (time: number) => time.toString().padStart(2, '0');
-
-  return `${paddedStr(hr)}:${paddedStr(min)}:${paddedStr(sec)}`;
-}
 
 export function getDateTime(timeStamp: number): { date: string; time: string } {
   const dateTime = new Date(timeStamp);
@@ -101,13 +68,6 @@ export function getDateTime(timeStamp: number): { date: string; time: string } {
 }
 
 
-export function generateRandomString(length) {
-  const characters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  let result = "";
-  for (let i = 0; i < length; i++) {
-    const randomIndex = Math.floor(Math.random() * characters.length);
-    result += characters.charAt(randomIndex);
-  }
-  return result;
+export function getHashedString(str: string) {
+  return new jssha.default('SHA-512', 'TEXT').update(str).getHash('HEX');
 }

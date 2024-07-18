@@ -43,6 +43,7 @@ export interface BlogPost {
   title: string | null;
   updatedAt: Date;
   name?:string;
+  uuid?:string;
 }
 
 
@@ -65,4 +66,9 @@ export interface  BlogThumbnail {
   blogId : string;
   fileName?: string;
   location: string;
+}
+
+
+export type CombineBlogResponse = BlogThumbnail & {
+   blog: BlogPost
 }
