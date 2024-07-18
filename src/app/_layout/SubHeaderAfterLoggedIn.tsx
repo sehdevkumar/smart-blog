@@ -50,7 +50,7 @@ const SubHeaderAfterLoggedInPage = () => {
         setLoader(true,'redirecting....')
         removeUserSession();
         setLoader(false);      
-        router.push('/')
+        router.push('/login')
       }
     },
     onError: (err) => {

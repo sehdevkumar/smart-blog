@@ -1,8 +1,14 @@
-import { redirect } from 'next/navigation'
+import HomePage from '../home/page'
 
 async function LandingPage() {
   
-    return redirect('/home')
+    return (
+        <>
+
+            <HomePage/>
+          
+        </>
+    )
 
 }
 

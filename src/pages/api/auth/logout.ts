@@ -15,13 +15,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         });
 
 
-        // Destroy the __userSession__ cookie
         setCookie({ res }, '__userSession__', '', {
             httpOnly: true,
-            secure: process.env.NODE_ENV !== 'development',
-            maxAge: -1, // Set the maxAge to a negative value to delete the cookie
+            maxAge: -1,
             path: '/',
         });
+
+    
 
         res.status(204).end();
     } else {

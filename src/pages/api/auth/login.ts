@@ -28,9 +28,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         setCookie({ res }, '__userSession__', JSON.stringify({ refreshToken, accessToken }), {
             httpOnly: true,
-            secure: process.env.NODE_ENV !== 'development',
-            maxAge: 30 * 24 * 60 * 60,
-            path: '/',
+            path: "/",
+            maxAge: 60 * 60 * 24 * 365 * 1000
         });
 
         res.json({ accessToken, refreshToken });

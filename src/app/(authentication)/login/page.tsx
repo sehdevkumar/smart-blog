@@ -15,22 +15,14 @@ import {
 import { useMutation } from "@tanstack/react-query";
 import axios, { type AxiosResponse } from "axios";
 import { useRouter } from "next/navigation";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "~/app/components/ChakraUI";
 import useHttpClientHandler from "~/app/hooks/useHttpLoader";
-import { isUserLoggedIn, setUserSession, type UserSessionResponse } from "~/app/utils/user-session";
+import { removeUserSession, setUserSession, type UserSessionResponse } from "~/app/utils/user-session";
 import { isPropEmpty } from "~/app/utils/utilfunctions";
 
 export default function SignIn() {
   const router = useRouter()
-
-  useLayoutEffect(() => {
-    // is User already lodded in redicet to home
-      if(isUserLoggedIn()) {
-         router.push('/home')
-      }
-  }, [])
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isFormValid,setFormValid] = useState<boolean>();
@@ -54,11 +46,8 @@ export default function SignIn() {
         setToast('User Logged In Successfully...')
         setLoader(true,'redirecting....')
         setUserSession(startResponse.data as UserSessionResponse);
-        const ref =  setTimeout(()=> {
-          router.push('/home')
-          clearTimeout(ref);
-          setLoader(false);
-         },1000)
+        setLoader(false);
+        router.push('/home')
       }
     },
     onError: (err) => {
@@ -85,6 +74,11 @@ export default function SignIn() {
 
      }
   } ,[email,password])
+
+
+  useEffect(()=> {
+    removeUserSession();
+  },[])
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">

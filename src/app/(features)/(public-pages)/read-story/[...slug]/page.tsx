@@ -1,11 +1,9 @@
 import { Box, Flex, Heading, Badge, Image, Text, Avatar } from "@chakra-ui/react";
 import { PrismaClient } from "@prisma/client";
-import { revalidatePath } from "next/cache";
 import { type CombineThumbnailResponse } from "~/pages/api/api-typings";
 
 const prisma = new PrismaClient();
 const ReadFullStory = async ({ params }: { params: { slug: string } }) => {
-    revalidatePath('/read-story')
     
     const blog = (await prisma.blog.findUnique({
         where: {
