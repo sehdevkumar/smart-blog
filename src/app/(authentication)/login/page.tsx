@@ -10,6 +10,7 @@ import {
   Stack,
   Text,
   useColorModeValue,
+  Image
 } from "@chakra-ui/react";
 import { useMutation } from "@tanstack/react-query";
 import axios, { type AxiosResponse } from "axios";
@@ -86,7 +87,8 @@ export default function SignIn() {
   } ,[email,password])
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+      <Image onClick={()=> router.push('/public-landing')} className="cursor-pointer w-[clamp(150px,1vw,200px)] mb-[30px]" src="/images/smartblog.png" alt=""/>
       <Box
         className="max-w-md w-full bg-white p-8 rounded-lg shadow-md"
         boxShadow="lg"
