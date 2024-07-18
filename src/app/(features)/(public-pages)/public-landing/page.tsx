@@ -70,7 +70,6 @@ const BlogCard = ({ response }: {response: CombineBlogResponse}) => {
   const onReadFullStory = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,uuid:string)=> {
    e.preventDefault();
    router.push(`/read-story/${uuid}`)
-   console.log(uuid);
   }
 
 

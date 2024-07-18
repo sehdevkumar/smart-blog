@@ -25,7 +25,6 @@ export default async function handler(
         where: { refreshToken: token },
       });
 
-      console.log(user,token,"after expired user has token")
 
       if (!user) {
         return res.status(403).end();

@@ -10,7 +10,6 @@ const useWebSocketConnectionHook = (event: AppEventEnum, cb: (arg: unknown) => v
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/prefer-optional-chain
     if (websocketData  && websocketData?.event === event) {
-      console.log("i never got the event")
       cb(websocketData);
     }
   }, [websocketData]); // Include event and cb in the dependency array

@@ -25,7 +25,6 @@ export default async function handler(
     }
 
     
-    console.log(req.body);
 
     const thumbnailReq: BlogThumbnail = req.body
 

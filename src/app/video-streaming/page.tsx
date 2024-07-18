@@ -42,7 +42,6 @@ const VideoStreamingPage:React.FC<ViewInput> = (props: ViewInput) => {
         const config = saveResponse.data
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         setToken(config)
-        console.log(config,"");
     },
     onError: (err) => {
        console.log("someting went wrong",err)
