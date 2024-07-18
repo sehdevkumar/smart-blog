@@ -72,3 +72,8 @@ export interface  BlogThumbnail {
 export type CombineBlogResponse = BlogThumbnail & {
    blog: BlogPost
 }
+
+
+export type CombineThumbnailResponse = BlogPost & {
+  thumbnail: BlogThumbnail
+}

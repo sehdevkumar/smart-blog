@@ -24,8 +24,10 @@ export async function middleware(request: NextRequest) {
   if (request.nextUrl.pathname.startsWith('/read-story')) {
     const isLoggedIn = cookies().get('__userSession__');
     if (!isLoggedIn) {
+      
       return NextResponse.next()
     }
+
 
     return NextResponse.redirect(new URL('/home', request.nextUrl.clone()))
   }
