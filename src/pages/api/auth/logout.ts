@@ -17,8 +17,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         setCookie({ res }, '__userSession__', '', {
             httpOnly: true,
-            maxAge: -1,
-            path: '/',
+            path: "/",
+            maxAge: -1
         });
 
     
