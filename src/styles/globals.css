@@ -44,3 +44,15 @@
     /* Change this to your desired font size */
     /* Optional: Change placeholder text color */
 }
+
+
+.html_content_container{
+    width: 100%;
+    display: grid;
+    overflow: hidden;
+    *{
+         overflow-wrap: break-word;
+         overflow: hidden;
+         display: block;
+    }
+}

@@ -60,8 +60,8 @@ const ReadFullStory = async ({ params }: { params: { slug: string } }) => {
                     <Text className="text-gray-500 mb-2">
                         By {blog.name} on {new Date(blog.createdAt).toLocaleDateString()}
                     </Text>
-                    <Box
-                        className="text-gray-700 mb-4"
+                    <div
+                        className="text-gray-700 mb-4 html_content_container"
                         dangerouslySetInnerHTML={{ __html: blog.content }}
                     />
                 </Box>
