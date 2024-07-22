@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import GlobalLoader from '../components/GlobalLoader'
 
 const ProtectPages = ({ children }) => {
-  const [isAppReady,setAppReady] = useState<boolean | undefined>(undefined);
+  const [isAppReady, setAppReady] = useState<boolean | undefined>(undefined);
   useEffect(() => {
     setAppReady(true);
   }, [])
@@ -12,13 +12,13 @@ const ProtectPages = ({ children }) => {
 
 
 
-  if(isAppReady === undefined) {
-    return <GlobalLoader/>
+  if (isAppReady === undefined) {
+    return <GlobalLoader />
   }
 
 
-    return <>{children}</>
-    
+  return <div className='grid overflow-x-hidden overflow-y-auto w-full h-full'>{children}</div>
+
 }
 
 export default ProtectPages
