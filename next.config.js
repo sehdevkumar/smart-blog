@@ -6,6 +6,7 @@ await import("./src/env.js");
 
 /** @type {import("next").NextConfig} */
 const config = {
+  target: "serverless",
  experimental: {
     staleTimes: {
       dynamic: 14,
