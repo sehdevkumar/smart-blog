@@ -1,5 +1,8 @@
 :root {
     
+    --app-bg:#0d121c;
+    --app-text:#FFFFFF;
+
     /* Overlayes */
     --overlay-bg:#0F730C;
     --overlay-bg-alpha: #E2F4CE;
@@ -12,13 +15,16 @@
 
     /* Buttons */
     --app-btn-bg: #0F730C;
+    --app-btn-bg-primary: #13d6d6;
+    --app-btn-bg-secondary: #1068ec;
+    
     --app-btn-text: #f9f9f9;
     --app-btn-cancel: #0F730C;
     --app-btn-close:#A1A1A1;
 
     /* cards */
-    --app-card-body: #FFFFFF;
-    --app-card-header:#BFC0EC;
+    --app-card-body: #0d121c;
+    --app-card-header: #0d121c;
 
 
     /* drawers */

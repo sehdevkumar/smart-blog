@@ -27,21 +27,21 @@ const ReadFullStory = async ({ params }: { params: { slug: string } }) => {
 
 
     return (
-        <Box className="max-w-4xl mx-auto mt-8 p-4 shadow-lg rounded-lg" bg="white">
+        <Box className="max-w-4xl mx-auto mt-8 p-4 shadow-lg rounded-lg">
             <Flex className="flex-col md:flex-row gap-y-4">
-                <Heading as="h1" size="xl" className="font-bold mb-2">
+                <Heading as="h1" size="xl" className="text-[var(--app-text)] font-bold mb-2">
                     {blog.thumbnail.event}
                 </Heading>
 
 
-                <Box className="p-4 shadow-md rounded-md" bg="white" display={'flex'} justifyContent={'start'} columnGap={'20px'} alignItems={'center' }>
+                <Box className="p-4 shadow-md rounded-md" display={'flex'} justifyContent={'start'} columnGap={'20px'} alignItems={'center' }>
                     <Avatar
                         cursor={'pointer'}
                         size="md"
                         name={user?.name}
                         src=""
                     />
-                    <Text>{user?.name}</Text>
+                    <Text className="text-[var(--app-text)]">{user?.name}</Text>
 
                 </Box>
 
@@ -57,11 +57,11 @@ const ReadFullStory = async ({ params }: { params: { slug: string } }) => {
                     <Badge colorScheme={blog.published ? 'green' : 'red'} mb={4}>
                         {blog.published ? 'Published' : 'Draft'}
                     </Badge>
-                    <Text className="text-gray-500 mb-2">
+                    <Text className="text-[var(--app-text)]mb-2">
                         By {blog.name} on {new Date(blog.createdAt).toLocaleDateString()}
                     </Text>
                     <div
-                        className="text-gray-700 mb-4 html_content_container"
+                        className="text-[var(--app-text)] mb-4 html_content_container"
                         dangerouslySetInnerHTML={{ __html: blog.content }}
                     />
                 </Box>

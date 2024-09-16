@@ -20,7 +20,7 @@ export default function RootLayout({
     <html lang="en" className={`inter`}>
       <body>
         <Providers>
-        <div className="grid h-screen w-screen">
+        <div className="grid h-screen w-screen bg-[var(--app-bg)]">
           <HeaderPage />
           <div className="grid overflow-auto  h-[var(--app-height)]">
             <ProtectPages>

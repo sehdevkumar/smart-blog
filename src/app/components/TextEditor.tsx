@@ -141,10 +141,10 @@ export default forwardRef(function RichTextEditor(
       <div
         onClick={toolBarIconHandle}
         ref={toolbarIconRef}
-        className="z-[999] cursor-pointer border-slate-800 border-[1px] w-[40px] h-[40px] rounded-full flex justify-center items-center"
+        className="z-[999] cursor-pointer border-white border-[1px] w-[40px] h-[40px] rounded-full flex justify-center items-center"
       >
-        {getIconToggled && <SmallCloseIcon />}
-        {!getIconToggled && <AddIcon />}
+        {getIconToggled && <SmallCloseIcon color={'white'} />}
+        {!getIconToggled && <AddIcon color={'white'} />}
       </div>
      { typeof window !== 'undefined'  && <div >
         <ReactQuill
@@ -153,6 +153,7 @@ export default forwardRef(function RichTextEditor(
           placeholder="Tell Your Story..."
           theme="snow"
           value={value}
+          className='text-editor text-[var(--app-text)]'
           onChange={setValue}
         />
         

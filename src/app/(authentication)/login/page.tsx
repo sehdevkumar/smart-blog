@@ -47,7 +47,8 @@ export default function SignIn() {
         setLoader(true,'redirecting....')
         setUserSession(startResponse.data as UserSessionResponse);
         setLoader(false);
-        router.push('/home')
+        router.refresh()
+        window.location.href = '/home'
       }
     },
     onError: (err) => {
@@ -81,8 +82,8 @@ export default function SignIn() {
   },[])
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <Image onClick={()=> router.push('/public-landing')} className="cursor-pointer w-[clamp(150px,1vw,200px)] mb-[30px]" src="/images/smartblog.png" alt=""/>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-[var(--app-bg)]">
+      <Image onClick={()=> router.push('/public-landing')} className="cursor-pointer w-[clamp(150px,1vw,200px)] mb-[30px] invert" src="/images/smartblog.png" alt=""/>
       <Box
         className="max-w-md w-full bg-white p-8 rounded-lg shadow-md"
         boxShadow="lg"

@@ -24,7 +24,7 @@ const DynamicHeaderPage = () => {
     <div className="flex w-full justify-between">
       <div className="flex-shrink-0 flex items-center">
         <Link href="/home">
-          <div className="text-2xl inter font-bold text-gray-900">
+          <div className="text-2xl inter font-bold text-[var(--app-text)]">
             SmartBlog
           </div>
         </Link>

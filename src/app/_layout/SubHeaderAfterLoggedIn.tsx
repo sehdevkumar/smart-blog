@@ -49,8 +49,10 @@ const SubHeaderAfterLoggedInPage = () => {
         setToast('User Logged Out Successfully...')
         setLoader(true,'redirecting....')
         removeUserSession();
+
         setLoader(false);      
-        router.push('/login')
+        router.refresh();
+        window.location.href = '/public-landing'
       }
     },
     onError: (err) => {

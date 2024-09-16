@@ -27,10 +27,14 @@
     border: none !important;
     font-size: 20px;
     position: unset;
+    color: #FFFFFF;
+
 }
 .ql-container.ql-snow {
     position: unset;
     border: none !important;
+   color: #FFFFFF;
+
 }
 
 .ql-toolbar{
@@ -43,6 +47,12 @@
     font-size: 20px;
     /* Change this to your desired font size */
     /* Optional: Change placeholder text color */
+    color: #FFFFFF !important;
+}
+
+
+.ql-editor.ql-blank{
+      color: #FFFFFF;
 }
 
 
@@ -54,5 +64,7 @@
          overflow-wrap: break-word;
          overflow: hidden;
          display: block;
+         color: #FFFFFF;
     }
 }
+

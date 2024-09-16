@@ -17,7 +17,7 @@ const ProtectPages = ({ children }) => {
   }
 
 
-  return <div className='grid overflow-x-hidden overflow-y-auto w-full h-full'>{children}</div>
+  return <div className='grid overflow-x-hidden overflow-y-auto w-full h-full bg-[var(--app-bg)]'>{children}</div>
 
 }
 

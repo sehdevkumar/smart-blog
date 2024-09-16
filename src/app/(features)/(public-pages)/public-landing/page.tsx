@@ -37,7 +37,7 @@ import { useRouter } from 'next/navigation';
 
   return (
     <div className="PublicLandingPage">
-      <Box className="bg-gray-100 p-8">
+      <Box className="bg-[var(--app-bg)] p-8">
         <HeroSection />
 
         {/* Render Thumbnails */}
@@ -54,10 +54,9 @@ import { useRouter } from 'next/navigation';
 
 function HeroSection() {
   return (
-    <Box className="text-center py-24 bg-blue-500 text-white">
+    <Box className="text-center py-24 bg-blue-800 text-white">
       <Heading as="h1" size="2xl" className="mb-4">Create Amazing Blog Posts</Heading>
       <Text className="mb-8">Discover, create, and share your stories with the world.</Text>
-      <Button colorScheme="teal" size="lg">Get Started</Button>
     </Box>
   );
 }
@@ -95,7 +94,7 @@ const BlogCard = ({ response }: {response: CombineBlogResponse}) => {
           fontWeight="semibold"
           as="h4"
           lineHeight="tight"
-          className="text-lg"
+          className="text-lg text-[var(--app-text)]"
         >
           {response?.desc}
         </Box>
